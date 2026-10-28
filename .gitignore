@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Testing / coverage
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local Odoo configuration and secrets
+odoo.conf
+*.local.conf
+.env
+.env.*
+*.pem
+*.key
+*.p12
+credentials.json
+secrets.json
+
+# Logs, databases, dumps
+*.log
+logs/
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+*.dump
+*.backup
+*.pgdump
+
+# IDE / OS
+.vscode/
+.idea/
+.cursor/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~

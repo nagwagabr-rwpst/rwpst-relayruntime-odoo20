@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_whatsapp_bulk_campaign_list" model="ir.ui.view">
+        <field name="name">whatsapp.bulk.campaign.list</field>
+        <field name="model">whatsapp.bulk.campaign</field>
+        <field name="arch" type="xml">
+            <list string="Bulk Campaigns" create="false">
+                <field name="name"/>
+                <field name="started_at"/>
+                <field name="finished_at"/>
+                <field name="user_id"/>
+                <field name="total_recipients"/>
+                <field name="total_success"/>
+                <field name="total_failures"/>
+                <field name="total_skipped"/>
+                <field name="success_rate"/>
+                <field name="duration_seconds" optional="hide"/>
+                <field name="state" widget="badge"
+                    decoration-success="state == 'completed'"
+                    decoration-warning="state == 'running'"
+                    decoration-danger="state in ('failed', 'completed_with_errors')"
+                    decoration-muted="state == 'stopped'"/>
+                <field name="progress_percentage" widget="progressbar" options="{'max_value': 100}" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_bulk_campaign_kanban" model="ir.ui.view">
+        <field name="name">whatsapp.bulk.campaign.kanban</field>
+        <field name="model">whatsapp.bulk.campaign</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" create="false">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="processing_state"/>
+                <field name="sent_count"/>
+                <field name="failed_count"/>
+                <field name="skipped_count"/>
+                <field name="success_rate"/>
+                <field name="progress_percent"/>
+                <field name="monitor_success_rate_text"/>
+                <field name="kanban_label_sent"/>
+                <field name="kanban_label_failed"/>
+                <field name="kanban_label_skipped"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="name"/></strong>
+                            <div class="text-muted">
+                                <field name="user_id"/>
+                            </div>
+                            <div class="mt-2">
+                                <span class="badge text-bg-success me-1">
+                                    <field name="kanban_label_sent" class="oe_inline"/>: <field name="sent_count"/>
+                                </span>
+                                <span class="badge text-bg-danger me-1">
+                                    <field name="kanban_label_failed" class="oe_inline"/>: <field name="failed_count"/>
+                                </span>
+                                <span class="badge text-bg-secondary">
+                                    <field name="kanban_label_skipped" class="oe_inline"/>: <field name="skipped_count"/>
+                                </span>
+                            </div>
+                            <div class="mt-1">
+                                <field name="monitor_success_rate_text"/>
+                            </div>
+                            <field name="processing_state" widget="badge" invisible="processing_state != 'running'"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_bulk_campaign_graph" model="ir.ui.view">
+        <field name="name">whatsapp.bulk.campaign.graph</field>
+        <field name="model">whatsapp.bulk.campaign</field>
+        <field name="arch" type="xml">
+            <graph string="Campaign Performance" type="bar">
+                <field name="name"/>
+                <field name="sent_count" type="measure"/>
+                <field name="failed_count" type="measure"/>
+                <field name="skipped_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_bulk_campaign_pivot" model="ir.ui.view">
+        <field name="name">whatsapp.bulk.campaign.pivot</field>
+        <field name="model">whatsapp.bulk.campaign</field>
+        <field name="arch" type="xml">
+            <pivot string="Campaign Pivot">
+                <field name="user_id" type="row"/>
+                <field name="sent_count" type="measure"/>
+                <field name="failed_count" type="measure"/>
+                <field name="skipped_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_bulk_campaign_form" model="ir.ui.view">
+        <field name="name">whatsapp.bulk.campaign.form</field>
+        <field name="model">whatsapp.bulk.campaign</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Campaign" create="false" edit="false">
+                <header>
+                    <button name="action_retry_failed_recipients"
+                        type="object"
+                        string="Retry Failed Recipients"
+                        class="btn-primary"
+                        invisible="state == 'running' or (failed_count == 0 and skipped_count == 0)"/>
+                    <button name="action_open_monitor" type="object" string="Open Monitor" class="btn-secondary"/>
+                    <button name="action_open_logs" type="object" string="Message Logs" class="btn-secondary"/>
+                    <button name="action_create_product_selection"
+                        type="object"
+                        string="Create Sale Order from Selection"
+                        class="btn-primary"
+                        invisible="not product_ids"/>
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,running,completed,completed_with_errors,stopped,failed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_sale_orders" type="object" class="oe_stat_button" icon="fa-shopping-cart">
+                            <field name="sale_order_count" widget="statinfo" string="Sales Orders"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="user_id"/>
+                            <field name="processing_state"/>
+                            <field name="parent_campaign_id" invisible="not parent_campaign_id"/>
+                            <field name="execution_started_at"/>
+                            <field name="execution_finished_at"/>
+                            <field name="last_activity_at"/>
+                            <field name="duration_seconds"/>
+                            <field name="running_duration_seconds"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Statistics">
+                            <field name="total_recipients"/>
+                            <field name="total_success"/>
+                            <field name="total_failures"/>
+                            <field name="total_skipped"/>
+                            <field name="cooldown_count"/>
+                            <field name="total_attachments"/>
+                            <field name="success_rate"/>
+                            <field name="progress_percentage" widget="progressbar" options="{'max_value': 100}"/>
+                            <field name="processed_count"/>
+                            <field name="remaining_count"/>
+                        </group>
+                    </group>
+                    <group string="Live Processing" invisible="state != 'running'">
+                        <field name="current_step"/>
+                        <field name="current_recipient_id"/>
+                        <field name="current_recipient_number"/>
+                        <field name="current_product_id"/>
+                    </group>
+                    <group string="Message">
+                        <field name="message" nolabel="1"/>
+                    </group>
+                    <group string="Products">
+                        <field name="product_ids" widget="many2many_tags"/>
+                        <field name="use_product_images"/>
+                    </group>
+                    <group string="Attachments">
+                        <field name="attachment_count"/>
+                        <field name="attachment_info"/>
+                        <field name="attachment_ids" widget="many2many_binary" readonly="1" nolabel="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Executions" name="executions">
+                            <field name="execution_ids" nolabel="1">
+                                <list create="false" edit="false">
+                                    <field name="name"/>
+                                    <field name="execution_uuid"/>
+                                    <field name="attempt_kind"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="executor_uid"/>
+                                    <field name="started_at"/>
+                                    <field name="finished_at"/>
+                                    <field name="heartbeat_at"/>
+                                    <field name="sent_count"/>
+                                    <field name="failed_count"/>
+                                    <field name="skipped_count"/>
+                                    <field name="parent_execution_id" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Message Logs" name="logs">
+                            <field name="log_ids" nolabel="1">
+                                <list create="false" edit="false">
+                                    <field name="sent_at"/>
+                                    <field name="partner_id"/>
+                                    <field name="recipient_number"/>
+                                    <field name="delivery_state" widget="badge"/>
+                                    <field name="execution_id" optional="hide"/>
+                                    <field name="outbound_intent_at" optional="hide"/>
+                                    <field name="attachment_count"/>
+                                    <field name="attachment_info"/>
+                                    <field name="failure_reason"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_bulk_campaign" model="ir.actions.act_window">
+        <field name="name">Bulk Campaigns</field>
+        <field name="res_model">whatsapp.bulk.campaign</field>
+        <field name="view_mode">kanban,list,form,graph,pivot</field>
+    </record>
+
+</odoo>
+
+

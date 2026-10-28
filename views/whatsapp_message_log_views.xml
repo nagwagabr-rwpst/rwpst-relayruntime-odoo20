@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_whatsapp_message_log_list" model="ir.ui.view">
+        <field name="name">whatsapp.message.log.list</field>
+        <field name="model">whatsapp.message.log</field>
+        <field name="arch" type="xml">
+            <list string="Message Logs" create="false">
+                <field name="sent_at"/>
+                <field name="partner_id"/>
+                <field name="recipient_number"/>
+                <field name="message_preview"/>
+                <field name="delivery_state" widget="badge"
+                    decoration-success="delivery_state in ('sent', 'delivered')"
+                    decoration-danger="delivery_state == 'failed'"
+                    decoration-warning="delivery_state in ('queued', 'sending')"
+                    decoration-muted="delivery_state == 'skipped'"/>
+                <field name="attachment_count"/>
+                <field name="attachment_info" optional="show"/>
+                <field name="campaign_id"/>
+                <field name="processing_duration" optional="hide"/>
+                <field name="api_message_id" optional="hide"/>
+                <field name="sent_by"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_message_log_form" model="ir.ui.view">
+        <field name="name">whatsapp.message.log.form</field>
+        <field name="model">whatsapp.message.log</field>
+        <field name="arch" type="xml">
+            <form string="Message Log" create="false" edit="false">
+                <header>
+                    <button name="action_open_product_selection"
+                        type="object"
+                        string="Create Sale Order from Selection"
+                        class="btn-primary"
+                        invisible="not partner_id"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="recipient"/>
+                            <field name="recipient_number"/>
+                            <field name="partner_id"/>
+                            <field name="delivery_state"/>
+                            <field name="status"/>
+                            <field name="campaign_id"/>
+                            <field name="sent_by"/>
+                            <field name="sent_at"/>
+                            <field name="processing_duration"/>
+                        </group>
+                        <group>
+                            <field name="attachment_count"/>
+                            <field name="attachment_info"/>
+                            <field name="api_message_id"/>
+                            <field name="related_model"/>
+                            <field name="related_record_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="product_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <group string="Message">
+                        <field name="message" nolabel="1"/>
+                    </group>
+                    <group string="Failure" invisible="delivery_state not in ('failed', 'skipped')">
+                        <group>
+                            <field name="failed_at"/>
+                            <field name="exception_type"/>
+                            <field name="retryable"/>
+                        </group>
+                        <field name="failure_reason" nolabel="1"/>
+                        <field name="traceback_summary" nolabel="1" invisible="not traceback_summary"/>
+                        <field name="api_response_body" nolabel="1" invisible="not api_response_body"/>
+                    </group>
+                    <group string="API Response">
+                        <field name="api_response" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_message_log_search" model="ir.ui.view">
+        <field name="name">whatsapp.message.log.search</field>
+        <field name="model">whatsapp.message.log</field>
+        <field name="arch" type="xml">
+            <search string="Message Logs">
+                <field name="recipient_number"/>
+                <field name="partner_id"/>
+                <field name="message"/>
+                <field name="campaign_id"/>
+                <field name="api_message_id"/>
+                <field name="sent_by"/>
+                <filter string="Sent" name="filter_sent" domain="[('delivery_state', 'in', ['sent', 'delivered'])]"/>
+                <filter string="Failed" name="filter_failed" domain="[('delivery_state', '=', 'failed')]"/>
+                <filter string="Skipped" name="filter_skipped" domain="[('delivery_state', '=', 'skipped')]"/>
+                <filter string="Queued / Sending" name="filter_pending" domain="[('delivery_state', 'in', ['queued', 'sending'])]"/>
+                <separator/>
+                <filter string="Today" name="filter_today" domain="[
+                    ('sent_at', '&gt;=', 'today'),
+                    ('sent_at', '&lt;', 'today +1d'),
+                ]"/>
+                <filter string="Sent Date" name="filter_sent_date" date="sent_at" default_period="month"/>
+                <group>
+                    <filter string="Delivery State" name="group_state" context="{'group_by': 'delivery_state'}"/>
+                    <filter string="Campaign" name="group_campaign" context="{'group_by': 'campaign_id'}"/>
+                    <filter string="Contact" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'sent_at:day'}"/>
+                    <filter string="Sent By" name="group_sent_by" context="{'group_by': 'sent_by'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_message_log_graph" model="ir.ui.view">
+        <field name="name">whatsapp.message.log.graph</field>
+        <field name="model">whatsapp.message.log</field>
+        <field name="arch" type="xml">
+            <graph string="Delivery Analysis" type="bar">
+                <field name="delivery_state"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_message_log_pivot" model="ir.ui.view">
+        <field name="name">whatsapp.message.log.pivot</field>
+        <field name="model">whatsapp.message.log</field>
+        <field name="arch" type="xml">
+            <pivot string="Delivery Pivot">
+                <field name="campaign_id" type="row"/>
+                <field name="delivery_state" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_message_log" model="ir.actions.act_window">
+        <field name="name">Message Logs</field>
+        <field name="res_model">whatsapp.message.log</field>
+        <field name="view_mode">list,form,graph,pivot</field>
+        <field name="search_view_id" ref="view_whatsapp_message_log_search"/>
+    </record>
+
+</odoo>

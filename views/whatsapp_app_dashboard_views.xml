@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_whatsapp_app_dashboard_form" model="ir.ui.view">
+        <field name="name">whatsapp.app.dashboard.form.launcher</field>
+        <field name="model">whatsapp.app.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Command Center" create="false" edit="false" delete="false"
+                class="o_rwpst_relayruntime o_whatsapp_app_launcher">
+                <sheet>
+                    <field name="config_id" invisible="1"/>
+                    <field name="config_active" invisible="1"/>
+                    <field name="config_is_test_mode" invisible="1"/>
+                    <field name="alert_count" invisible="1"/>
+                    <field name="pending_messages" invisible="1"/>
+
+                    <!-- App identity -->
+                    <div class="o_rr_app_header">
+                        <div class="d-flex flex-wrap align-items-start justify-content-between gap-3">
+                            <div class="d-flex gap-3 align-items-start">
+                                <img class="o_rr_app_logo"
+                                    src="/relayruntime/static/description/AppIcon.png"
+                                    alt="RWPST RelayRuntime"/>
+                                <div>
+                                    <h1 class="o_rr_app_title">RWPST RelayRuntime</h1>
+                                    <p class="o_rr_app_subtitle">
+                                        Operational Messaging Runtime for Odoo
+                                    </p>
+                                    <div class="mt-2 d-flex flex-wrap gap-2 align-items-center">
+                                        <span class="badge rounded-pill o_rr_channel_badge o_rr_channel_whatsapp">
+                                            <i class="fa fa-whatsapp me-1" title="WhatsApp channel"/>
+                                            WhatsApp
+                                        </span>
+                                        <field name="config_status" widget="badge"
+                                            decoration-success="config_status == 'configured'"
+                                            decoration-danger="config_status == 'missing'"/>
+                                        <field name="provider_status" widget="badge"
+                                            decoration-success="provider_status == 'healthy'"
+                                            decoration-warning="provider_status == 'degraded'"
+                                            decoration-danger="provider_status == 'disconnected'"/>
+                                        <span class="badge text-bg-warning" invisible="not config_is_test_mode">Test Mode</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2 o_rr_header_actions">
+                                <button name="action_refresh_dashboard"
+                                    type="object"
+                                    string="Refresh"
+                                    class="btn btn-secondary"
+                                    icon="fa-refresh"/>
+                                <button name="action_quick_send_message"
+                                    type="object"
+                                    string="Send Message"
+                                    class="btn btn-secondary"
+                                    icon="fa-comment"/>
+                                <button name="action_quick_new_campaign"
+                                    type="object"
+                                    string="New Bulk Send"
+                                    class="btn btn-primary o_rr_btn_accent"
+                                    icon="fa-plus"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alerts strip (top) -->
+                    <div class="o_rr_section_label">Alerts</div>
+                    <div class="o_rr_alerts_strip"
+                        invisible="config_status != 'missing' and provider_status not in ('disconnected', 'degraded') and total_failed == 0 and pending_messages == 0">
+                        <div class="fw-semibold mb-2">
+                            <i class="fa fa-bell o_rr_alert_bell me-1" title="Alerts"/>
+                            Active alerts
+                            <span class="badge rounded-pill text-bg-danger ms-1 o_rr_alert_count_badge">
+                                <field name="alert_count" readonly="1" nolabel="1"/>
+                            </span>
+                        </div>
+                        <div class="o_rr_alert_item" invisible="config_status != 'missing'">
+                            <i class="fa fa-exclamation-circle text-danger"/>
+                            <span>Runtime configuration is missing.</span>
+                            <button name="action_open_configuration" type="object"
+                                string="Configure runtime" class="btn btn-link btn-sm py-0"/>
+                        </div>
+                        <div class="o_rr_alert_item"
+                            invisible="provider_status not in ('disconnected', 'degraded') or config_status == 'missing'">
+                            <i class="fa fa-heartbeat text-warning"/>
+                            <span>Provider health requires attention:</span>
+                            <field name="provider_name" class="fw-semibold oe_inline" readonly="1" nolabel="1"/>
+                        </div>
+                        <div class="o_rr_alert_item" invisible="total_failed == 0">
+                            <i class="fa fa-times-circle text-danger"/>
+                            <field name="total_failed" readonly="1" nolabel="1" class="fw-semibold oe_inline"/>
+                            <span>failed deliveries need review.</span>
+                            <button name="action_open_failed_logs" type="object"
+                                string="View failed" class="btn btn-link btn-sm py-0"/>
+                        </div>
+                        <div class="o_rr_alert_item" invisible="pending_messages == 0">
+                            <i class="fa fa-clock-o text-info"/>
+                            <field name="pending_messages" readonly="1" nolabel="1" class="fw-semibold oe_inline"/>
+                            <span>messages queued or sending.</span>
+                            <button name="action_open_pending_logs" type="object"
+                                string="View queue" class="btn btn-link btn-sm py-0"/>
+                        </div>
+                    </div>
+                    <div class="o_rr_alerts_strip o_rr_alerts_ok"
+                        invisible="config_status == 'missing' or provider_status in ('disconnected', 'degraded') or total_failed != 0 or pending_messages != 0">
+                        <i class="fa fa-check-circle text-success me-1"/>
+                        All runtime checks passed — no active alerts.
+                    </div>
+
+                    <!-- KPI row -->
+                    <div class="o_rr_section_label">Runtime KPIs</div>
+                    <div class="o_rr_health_banner o_rr_kpi_row">
+                        <button name="action_open_configuration" type="object"
+                            class="o_rr_health_metric border-0 bg-transparent text-white">
+                            <div class="o_rr_health_metric_label">Provider</div>
+                            <div class="o_rr_health_metric_value">
+                                <field name="provider_status" widget="badge"
+                                    decoration-success="provider_status == 'healthy'"
+                                    decoration-warning="provider_status == 'degraded'"
+                                    decoration-danger="provider_status == 'disconnected'"
+                                    nolabel="1" readonly="1"/>
+                            </div>
+                            <div class="o_rr_health_metric_sub">
+                                <field name="provider_name" class="oe_inline" readonly="1" nolabel="1"/>
+                            </div>
+                        </button>
+                        <button name="action_open_active_campaigns" type="object"
+                            class="o_rr_health_metric border-0 bg-transparent text-white">
+                            <div class="o_rr_health_metric_label">Active Campaigns</div>
+                            <div class="o_rr_health_metric_value">
+                                <field name="active_campaigns" readonly="1" nolabel="1"/>
+                            </div>
+                            <div class="o_rr_health_metric_sub">
+                                <field name="running_campaign_count" readonly="1" nolabel="1"/> running now
+                            </div>
+                        </button>
+                        <button name="action_open_delivery_dashboard" type="object"
+                            class="o_rr_health_metric border-0 bg-transparent text-white">
+                            <div class="o_rr_health_metric_label">Delivery Rate</div>
+                            <div class="o_rr_health_metric_value">
+                                <field name="delivery_rate" widget="float" digits="[16, 1]" readonly="1" nolabel="1"/>%
+                            </div>
+                            <div class="o_rr_health_metric_sub">
+                                <field name="total_sent" readonly="1" nolabel="1"/> sent total
+                            </div>
+                        </button>
+                        <button name="action_open_pending_logs" type="object"
+                            class="o_rr_health_metric border-0 bg-transparent text-white">
+                            <div class="o_rr_health_metric_label">Queue</div>
+                            <div class="o_rr_health_metric_value">
+                                <field name="pending_messages" readonly="1" nolabel="1"/>
+                            </div>
+                            <div class="o_rr_health_metric_sub">queued or sending</div>
+                        </button>
+                    </div>
+
+                    <!-- Workspace tiles (primary navigation) -->
+                    <div class="o_rr_section_label">Workspaces</div>
+                    <div class="o_rr_workspace_grid">
+                        <button name="action_tile_command_center" type="object"
+                            class="o_rr_workspace_tile o_rr_tile_projects o_rr_tile_primary border-0 bg-view">
+                            <span class="o_rr_tile_icon">
+                                <i class="fa fa-th-large" title="Command Center"/>
+                            </span>
+                            <span class="o_rr_tile_title">Command Center</span>
+                            <span class="o_rr_tile_desc">Operational hub: KPIs, alerts, lifecycle, and live activity.</span>
+                            <span class="o_rr_tile_kpi">
+                                <field name="delivery_rate" widget="float" digits="[16, 1]" readonly="1" nolabel="1"/>% delivery
+                            </span>
+                            <span class="o_rr_tile_cta">Open Command Center <i class="fa fa-arrow-right"/></span>
+                        </button>
+                        <button name="action_tile_campaigns" type="object"
+                            class="o_rr_workspace_tile o_rr_tile_campaigns border-0 bg-view">
+                            <span class="badge rounded-pill text-bg-warning o_rr_tile_badge"
+                                invisible="active_campaigns == 0">
+                                <field name="active_campaigns" readonly="1" nolabel="1"/>
+                            </span>
+                            <span class="o_rr_tile_icon">
+                                <i class="fa fa-bullhorn" title="Campaigns"/>
+                            </span>
+                            <span class="o_rr_tile_title">Campaigns</span>
+                            <span class="o_rr_tile_desc">Bulk campaign history, drafts, and execution states.</span>
+                            <span class="o_rr_tile_kpi">
+                                <field name="total_campaigns" readonly="1" nolabel="1"/> total
+                            </span>
+                            <span class="o_rr_tile_cta">View campaigns <i class="fa fa-arrow-right"/></span>
+                        </button>
+                        <button name="action_tile_bulk_send" type="object"
+                            class="o_rr_workspace_tile o_rr_tile_templates border-0 bg-view">
+                            <span class="o_rr_tile_icon">
+                                <i class="fa fa-send" title="Bulk Messaging"/>
+                            </span>
+                            <span class="o_rr_tile_title">Bulk Messaging</span>
+                            <span class="o_rr_tile_desc">Launch bulk send wizards and operational templates.</span>
+                            <span class="o_rr_tile_kpi o_rr_tile_kpi_accent">New send</span>
+                            <span class="o_rr_tile_cta">Start bulk send <i class="fa fa-arrow-right"/></span>
+                        </button>
+                        <button name="action_tile_contacts" type="object"
+                            class="o_rr_workspace_tile o_rr_tile_contacts border-0 bg-view">
+                            <span class="o_rr_tile_icon">
+                                <i class="fa fa-users" title="Contacts and Audiences"/>
+                            </span>
+                            <span class="o_rr_tile_title">Contacts &amp; Audiences</span>
+                            <span class="o_rr_tile_desc">Partners and lists with reachable phone numbers.</span>
+                            <span class="o_rr_tile_kpi">Audiences</span>
+                            <span class="o_rr_tile_cta">Browse contacts <i class="fa fa-arrow-right"/></span>
+                        </button>
+                        <button name="action_tile_delivery_logs" type="object"
+                            class="o_rr_workspace_tile o_rr_tile_analytics border-0 bg-view">
+                            <span class="badge rounded-pill text-bg-danger o_rr_tile_badge"
+                                invisible="total_failed == 0">
+                                <field name="total_failed" readonly="1" nolabel="1"/>
+                            </span>
+                            <span class="o_rr_tile_icon">
+                                <i class="fa fa-list-alt" title="Delivery and Logs"/>
+                            </span>
+                            <span class="o_rr_tile_title">Delivery &amp; Logs</span>
+                            <span class="o_rr_tile_desc">Message logs, delivery outcomes, and success metrics.</span>
+                            <span class="o_rr_tile_kpi">
+                                <field name="total_sent" readonly="1" nolabel="1"/> sent
+                            </span>
+                            <span class="o_rr_tile_cta">Open logs <i class="fa fa-arrow-right"/></span>
+                        </button>
+                        <button name="action_tile_live_monitor" type="object"
+                            class="o_rr_workspace_tile o_rr_tile_inbox border-0 bg-view">
+                            <span class="badge rounded-pill text-bg-success o_rr_tile_badge"
+                                invisible="running_campaign_count == 0">
+                                <field name="running_campaign_count" readonly="1" nolabel="1"/>
+                            </span>
+                            <span class="o_rr_tile_icon">
+                                <i class="fa fa-desktop" title="Live Monitor"/>
+                            </span>
+                            <span class="o_rr_tile_title">Live Monitor</span>
+                            <span class="o_rr_tile_desc">Live kanban for campaigns executing right now.</span>
+                            <span class="o_rr_tile_kpi">
+                                <field name="running_campaign_count" readonly="1" nolabel="1"/> live
+                            </span>
+                            <span class="o_rr_tile_cta">Open monitor <i class="fa fa-arrow-right"/></span>
+                        </button>
+                        <button name="action_tile_runtime_settings" type="object"
+                            class="o_rr_workspace_tile o_rr_tile_settings border-0 bg-view">
+                            <span class="o_rr_tile_icon">
+                                <i class="fa fa-cogs" title="Runtime and Settings"/>
+                            </span>
+                            <span class="o_rr_tile_title">Runtime &amp; Settings</span>
+                            <span class="o_rr_tile_desc">Provider adapters, credentials, safety, and health.</span>
+                            <span class="o_rr_tile_kpi">
+                                <field name="config_provider_label" readonly="1" nolabel="1"/>
+                            </span>
+                            <span class="o_rr_tile_cta">Configure runtime <i class="fa fa-arrow-right"/></span>
+                        </button>
+                    </div>
+
+                    <!-- Lifecycle funnel -->
+                    <div class="o_rr_section_label">Lifecycle</div>
+                    <div class="o_rr_lifecycle">
+                        <button name="action_lifecycle_contacts" type="object"
+                            class="o_rr_lifecycle_step o_rr_lifecycle_step_draft border-0">
+                            <i class="fa fa-address-book"/> Contacts
+                        </button>
+                        <span class="o_rr_lifecycle_arrow"><i class="fa fa-chevron-right"/></span>
+                        <button name="action_lifecycle_campaign" type="object"
+                            class="o_rr_lifecycle_step o_rr_lifecycle_step_scheduled border-0">
+                            <i class="fa fa-bullhorn"/> Campaign
+                        </button>
+                        <span class="o_rr_lifecycle_arrow"><i class="fa fa-chevron-right"/></span>
+                        <button name="action_lifecycle_send" type="object"
+                            class="o_rr_lifecycle_step o_rr_lifecycle_step_scheduled border-0">
+                            <i class="fa fa-paper-plane"/> Send
+                        </button>
+                        <span class="o_rr_lifecycle_arrow"><i class="fa fa-chevron-right"/></span>
+                        <button name="action_lifecycle_delivery" type="object"
+                            class="o_rr_lifecycle_step o_rr_lifecycle_step_sent border-0">
+                            <i class="fa fa-truck"/> Delivery
+                        </button>
+                        <span class="o_rr_lifecycle_arrow"><i class="fa fa-chevron-right"/></span>
+                        <button name="action_lifecycle_monitor" type="object"
+                            class="o_rr_lifecycle_step o_rr_lifecycle_step_sent border-0">
+                            <i class="fa fa-desktop"/> Monitor
+                        </button>
+                        <span class="o_rr_lifecycle_arrow"><i class="fa fa-chevron-right"/></span>
+                        <button name="action_lifecycle_analytics" type="object"
+                            class="o_rr_lifecycle_step o_rr_lifecycle_step_converted border-0">
+                            <i class="fa fa-bar-chart"/> Analytics
+                        </button>
+                    </div>
+
+                    <!-- Running Now -->
+                    <div class="o_rr_running_strip">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0 o_rr_running_title">
+                                <i class="fa fa-play-circle me-1" title="Running now"/>
+                                Running Now
+                            </h5>
+                            <button name="action_tile_live_monitor" type="object"
+                                string="Open Live Monitor"
+                                class="btn btn-link btn-sm"
+                                icon="fa-external-link"/>
+                        </div>
+                        <field name="running_campaign_ids" nolabel="1" invisible="running_campaign_count == 0">
+                            <kanban create="false" delete="false" edit="false" class="o_kanban_mobile o_rr_running_kanban">
+                                <field name="name"/>
+                                <field name="state_label"/>
+                                <field name="progress_percentage"/>
+                                <field name="sent_count"/>
+                                <field name="failed_count"/>
+                                <field name="total_recipients"/>
+                                <field name="current_step"/>
+                                <templates>
+                                    <t t-name="card">
+                                        <div class="o_rr_running_card">
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <strong><field name="name"/></strong>
+                                                <span class="badge text-bg-success"><field name="state_label"/></span>
+                                            </div>
+                                            <field name="progress_percentage" widget="progressbar" options="{'max_value': 100}"/>
+                                            <div class="small text-muted mt-1">
+                                                <field name="sent_count"/> sent ·
+                                                <field name="failed_count"/> failed ·
+                                                <field name="total_recipients"/> total
+                                            </div>
+                                            <div class="small text-info mt-1" t-if="record.current_step.raw_value">
+                                                <field name="current_step"/>
+                                            </div>
+                                            <div class="mt-2">
+                                                <button name="action_open_campaign" type="object"
+                                                    string="Campaign" class="btn btn-sm btn-secondary"/>
+                                                <button name="action_open_monitor" type="object"
+                                                    string="Monitor" class="btn btn-sm btn-link"/>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                        <div class="o_rr_running_empty" invisible="running_campaign_count != 0">
+                            <i class="fa fa-inbox me-1"/>
+                            No campaigns are running right now. Start a bulk send or open Live Monitor.
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="o_rr_section_label">Recent Activity</div>
+                    <div class="o_rr_activity_panel">
+                        <field name="recent_activity_ids" nolabel="1">
+                            <list create="false" delete="false" edit="false" default_order="activity_at desc">
+                                <field name="activity_at" widget="relative"/>
+                                <field name="activity_type" widget="badge"
+                                    decoration-info="activity_type == 'message'"
+                                    decoration-primary="activity_type == 'campaign'"/>
+                                <field name="name"/>
+                                <field name="detail"/>
+                                <field name="status_code" column_invisible="1"/>
+                                <field name="status_label" string="Status" widget="badge"
+                                    decoration-success="status_code in ('sent', 'delivered', 'completed')"
+                                    decoration-warning="status_code in ('running', 'draft', 'queued', 'sending')"
+                                    decoration-danger="status_code in ('failed', 'completed_with_errors')"
+                                    decoration-muted="status_code == 'stopped'"/>
+                                <button name="action_open_record" type="object" icon="fa-external-link" title="Open record"/>
+                            </list>
+                        </field>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_app_dashboard" model="ir.actions.server">
+        <field name="name">Command Center</field>
+        <field name="model_id" ref="model_whatsapp_app_dashboard"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_dashboard()</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <!-- App root: opens Command Center directly on app icon click. -->
+    <menuitem id="menu_whatsapp_root"
+        name="RWPST RelayRuntime"
+        action="action_whatsapp_app_dashboard"
+        sequence="85"
+        web_icon="relayruntime,static/description/icon.png"
+        groups="relayruntime.group_whatsapp_user"/>
+
+    <menuitem id="menu_whatsapp_dashboard"
+        name="Command Center"
+        parent="menu_whatsapp_root"
+        action="action_whatsapp_app_dashboard"
+        sequence="5"
+        groups="relayruntime.group_whatsapp_user"/>
+
+    <!-- Enterprise product navigation (sections only; tiles remain primary). -->
+    <menuitem id="menu_whatsapp_operations"
+        name="Operations"
+        parent="menu_whatsapp_root"
+        sequence="10"
+        groups="relayruntime.group_whatsapp_user"/>
+
+    <menuitem id="menu_whatsapp_bulk_campaigns"
+        name="Campaigns"
+        parent="menu_whatsapp_operations"
+        action="action_whatsapp_bulk_campaign"
+        sequence="10"
+        groups="relayruntime.group_whatsapp_user"/>
+    <menuitem id="menu_whatsapp_send_message"
+        name="Send Message"
+        parent="menu_whatsapp_operations"
+        action="action_whatsapp_send_message"
+        sequence="15"
+        groups="relayruntime.group_whatsapp_user"/>
+
+    <menuitem id="menu_whatsapp_new_bulk_send"
+        name="Bulk Messaging"
+        parent="menu_whatsapp_operations"
+        action="action_whatsapp_new_bulk_send"
+        sequence="20"
+        groups="relayruntime.group_whatsapp_user"/>
+
+    <menuitem id="menu_whatsapp_campaign_monitor"
+        name="Live Monitor"
+        parent="menu_whatsapp_operations"
+        action="action_whatsapp_campaign_monitor"
+        sequence="25"
+        groups="relayruntime.group_whatsapp_user"/>
+
+    <menuitem id="menu_whatsapp_analytics"
+        name="Analytics"
+        parent="menu_whatsapp_root"
+        sequence="20"
+        groups="relayruntime.group_whatsapp_user"/>
+
+    <menuitem id="menu_whatsapp_delivery_dashboard"
+        name="Delivery Dashboard"
+        parent="menu_whatsapp_analytics"
+        action="action_whatsapp_delivery_dashboard"
+        sequence="10"
+        groups="relayruntime.group_whatsapp_user"/>
+
+    <menuitem id="menu_whatsapp_message_logs"
+        name="Message Logs"
+        parent="menu_whatsapp_analytics"
+        action="action_whatsapp_message_log"
+        sequence="20"
+        groups="relayruntime.group_whatsapp_user"/>
+
+    <menuitem id="menu_whatsapp_configuration"
+        name="Configuration"
+        parent="menu_whatsapp_root"
+        sequence="30"
+        groups="relayruntime.group_whatsapp_manager"/>
+
+    <menuitem id="menu_whatsapp_settings"
+        name="Runtime Configuration"
+        parent="menu_whatsapp_configuration"
+        action="action_whatsapp_config"
+        sequence="10"
+        groups="relayruntime.group_whatsapp_manager"/>
+
+    <!-- Placeholder navigation target (no model / business logic). -->
+    <record id="action_whatsapp_templates_placeholder" model="ir.actions.client">
+        <field name="name">Templates</field>
+        <field name="tag">display_notification</field>
+        <field name="params" eval="{
+            'title': 'Templates',
+            'message': 'Message templates are not available in this release. Use workspace tiles and bulk send wizards for operational messaging.',
+            'type': 'info',
+            'sticky': False,
+        }"/>
+    </record>
+
+    <menuitem id="menu_whatsapp_templates"
+        name="Templates"
+        parent="menu_whatsapp_configuration"
+        action="action_whatsapp_templates_placeholder"
+        sequence="20"
+        groups="relayruntime.group_whatsapp_manager"/>
+
+</data>
+</odoo>

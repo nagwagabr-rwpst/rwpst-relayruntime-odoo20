@@ -1,0 +1,6 @@
+// RWPST — Odoo core palette overrides (loaded before web/static/src/scss/primary_variables.scss)
+// Requires relayruntime/static/src/scss/_rwpst_brand_tokens.scss via web._assets_primary_variables.
+
+$o-community-color: $o-rwpst-blue;
+$o-brand-odoo: $o-rwpst-blue-deep;
+$o-brand-primary: $o-rwpst-blue;

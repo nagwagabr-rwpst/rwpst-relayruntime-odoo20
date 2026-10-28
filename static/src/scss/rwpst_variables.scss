@@ -1,0 +1,30 @@
+// RWPST RelayRuntime — shared SCSS variables (Command Center & dashboards)
+// Requires relayruntime/static/src/scss/_rwpst_brand_tokens.scss via web.assets_backend.
+
+// —— Workspace tile accents ——
+$o-rwpst-tile-projects: #4f46e5 !default;
+$o-rwpst-tile-contacts: #0d9488 !default;
+$o-rwpst-tile-templates: #0891b2 !default;
+$o-rwpst-tile-campaigns: #ea580c !default;
+$o-rwpst-tile-inbox: #16a34a !default;
+$o-rwpst-tile-analytics: #1d4ed8 !default;
+$o-rwpst-tile-settings: #475569 !default;
+
+// —— Lifecycle funnel stages ——
+$o-rwpst-funnel-draft: #94a3b8 !default;
+$o-rwpst-funnel-scheduled: #60a5fa !default;
+$o-rwpst-funnel-sent: #34d399 !default;
+$o-rwpst-funnel-converted: #1e40af !default;
+
+// —— Interaction tuning ——
+$o-rwpst-tile-tint: 0.14 !default;
+$o-rwpst-tile-tint-active: 0.2 !default;
+$o-rwpst-tile-border-hover: 0.45 !default;
+$o-rwpst-funnel-hover-lift: -4px !default;
+$o-rwpst-funnel-hover-opacity: 0.9 !default;
+
+// KPI tinted backgrounds (12% opacity equivalent)
+$o-rwpst-success-bg: rgba($o-rwpst-success, 0.12) !default;
+$o-rwpst-warning-bg: rgba($o-rwpst-warning, 0.12) !default;
+$o-rwpst-danger-bg: rgba($o-rwpst-danger, 0.12) !default;
+$o-rwpst-info-bg: rgba($o-rwpst-info, 0.12) !default;

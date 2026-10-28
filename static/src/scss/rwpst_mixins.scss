@@ -1,0 +1,153 @@
+// RWPST RelayRuntime — interaction mixins (hover / active)
+
+@function rwpst-tint($color, $alpha: $o-rwpst-tile-tint) {
+    @return rgba($color, $alpha);
+}
+
+@function rwpst-hover-fill($color, $pct: 8%) {
+    @return darken($color, $pct);
+}
+
+@function rwpst-active-fill($color, $pct: 14%) {
+    @return darken($color, $pct);
+}
+
+@mixin rwpst-hover-lift($lift: -2px) {
+    transform: translateY($lift);
+}
+
+@mixin rwpst-focus-ring($color: $o-rwpst-blue) {
+    outline: 2px solid rgba($color, 0.45);
+    outline-offset: 2px;
+}
+
+@mixin rwpst-tile-variant($accent) {
+    background: rwpst-tint($accent, $o-rwpst-tile-tint);
+    border-color: $o-rwpst-border;
+
+    .o_rr_tile_icon {
+        color: $accent;
+        transition: color 0.12s ease, transform 0.12s ease;
+    }
+
+    .o_rr_tile_cta {
+        transition: color 0.12s ease;
+    }
+
+    &:hover {
+        border-color: rgba($accent, $o-rwpst-tile-border-hover);
+        box-shadow: 0 8px 24px rgba($accent, 0.18);
+        @include rwpst-hover-lift(-2px);
+
+        .o_rr_tile_cta {
+            color: rwpst-hover-fill($accent, 6%);
+        }
+    }
+
+    &:active,
+    &.active {
+        background: rwpst-tint($accent, $o-rwpst-tile-tint-active);
+        border-color: rgba($accent, 0.55);
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba($accent, 0.12);
+
+        .o_rr_tile_icon {
+            color: rwpst-active-fill($accent, 14%);
+            transform: translateX(2px);
+        }
+
+        .o_rr_tile_cta {
+            color: rwpst-active-fill($accent, 10%);
+        }
+    }
+
+    &:focus-visible {
+        @include rwpst-focus-ring($accent);
+    }
+}
+
+@mixin rwpst-lifecycle-step($stage-color) {
+    color: darken($stage-color, 28%);
+    border-color: rgba($stage-color, 0.35);
+    background: rwpst-tint($stage-color, 0.1);
+
+    .fa {
+        color: $stage-color;
+    }
+
+    &:hover {
+        opacity: $o-rwpst-funnel-hover-opacity;
+        @include rwpst-hover-lift($o-rwpst-funnel-hover-lift);
+        border-color: rgba($stage-color, 0.55);
+        background: rwpst-tint($stage-color, 0.16);
+        color: darken($stage-color, 32%);
+    }
+
+    &:active,
+    &.active {
+        opacity: 1;
+        transform: translateY(0);
+        background: rwpst-active-fill($stage-color, 10%);
+        border-color: rwpst-active-fill($stage-color, 14%);
+        color: #fff;
+
+        .fa {
+            color: #fff;
+        }
+    }
+
+    &:focus-visible {
+        @include rwpst-focus-ring($stage-color);
+    }
+}
+
+@mixin rwpst-kpi-badge($semantic, $bg: null) {
+    $tint-bg: $bg;
+
+    @if $bg == null {
+        @if $semantic == $o-rwpst-success {
+            $tint-bg: $o-rwpst-success-bg;
+        } @else if $semantic == $o-rwpst-warning {
+            $tint-bg: $o-rwpst-warning-bg;
+        } @else if $semantic == $o-rwpst-danger {
+            $tint-bg: $o-rwpst-danger-bg;
+        } @else {
+            $tint-bg: $o-rwpst-info-bg;
+        }
+    }
+
+    background: $tint-bg;
+    color: darken($semantic, 12%);
+    border: 1px solid rgba($semantic, 0.35);
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+        border-color: rgba($semantic, 0.65);
+        background: rgba($semantic, 0.18);
+        color: darken($semantic, 18%);
+    }
+
+    &:active,
+    &.active {
+        background: rgba($semantic, 0.28);
+        border-color: rwpst-active-fill($semantic, 6%);
+        color: darken($semantic, 22%);
+    }
+}
+
+@mixin rwpst-alert-strip($semantic) {
+    background: rgba($semantic, 0.1);
+    border: 1px solid rgba($semantic, 0.45);
+    transition: background 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+        background: rgba($semantic, 0.14);
+        border-color: rgba($semantic, 0.6);
+    }
+
+    &:active,
+    &.active {
+        background: rgba($semantic, 0.18);
+        border-color: rwpst-active-fill($semantic, 4%);
+    }
+}

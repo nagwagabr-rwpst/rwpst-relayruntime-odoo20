@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_category_whatsapp" model="ir.module.category">
+        <field name="name">WhatsApp</field>
+        <field name="description">WhatsApp messaging integration</field>
+        <field name="sequence">55</field>
+    </record>
+
+    <record model="res.groups.privilege" id="res_groups_privilege_whatsapp">
+        <field name="name">WhatsApp</field>
+        <field name="sequence">10</field>
+        <field name="category_id" ref="module_category_whatsapp"/>
+    </record>
+
+    <record id="group_whatsapp_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="sequence">10</field>
+        <field name="privilege_id" ref="res_groups_privilege_whatsapp"/>
+        <field name="comment">Can send WhatsApp messages and view message logs.</field>
+    </record>
+
+    <record id="group_whatsapp_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="sequence">20</field>
+        <field name="privilege_id" ref="res_groups_privilege_whatsapp"/>
+        <field name="implied_ids" eval="[(4, ref('group_whatsapp_user'))]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        <field name="comment">Full access to WhatsApp settings and message logs.</field>
+    </record>
+
+</odoo>

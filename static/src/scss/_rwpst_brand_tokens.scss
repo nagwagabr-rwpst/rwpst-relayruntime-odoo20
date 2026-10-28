@@ -1,0 +1,38 @@
+// RWPST RelayRuntime — canonical brand tokens (shared across asset bundles)
+// Loaded first in web._assets_primary_variables; consumed by derived + global layers.
+
+$o-rwpst-navy: #0f172a !default;
+$o-rwpst-blue-deep: #1e3a8a !default;
+$o-rwpst-blue: #2563eb !default;
+$o-rwpst-whatsapp: #25d366 !default;
+$o-rwpst-accent: #f97316 !default;
+
+$o-rwpst-bg: #f8fafc !default;
+$o-rwpst-card: #ffffff !default;
+$o-rwpst-muted: #64748b !default;
+$o-rwpst-border: #e2e8f0 !default;
+
+$o-rwpst-success: $o-rwpst-whatsapp !default;
+$o-rwpst-warning: $o-rwpst-accent !default;
+$o-rwpst-danger: #ef4444 !default;
+$o-rwpst-info: $o-rwpst-blue !default;
+
+// Interaction states (hover / active / focus)
+$o-rwpst-blue-hover: darken($o-rwpst-blue, 8%) !default;
+$o-rwpst-blue-active: darken($o-rwpst-blue, 14%) !default;
+$o-rwpst-blue-deep-hover: darken($o-rwpst-blue-deep, 6%) !default;
+$o-rwpst-blue-deep-active: darken($o-rwpst-blue-deep, 10%) !default;
+$o-rwpst-accent-hover: darken($o-rwpst-accent, 6%) !default;
+$o-rwpst-accent-active: darken($o-rwpst-accent, 12%) !default;
+$o-rwpst-success-hover: darken($o-rwpst-success, 6%) !default;
+$o-rwpst-success-active: darken($o-rwpst-success, 10%) !default;
+
+$o-rwpst-focus-ring: rgba($o-rwpst-blue, 0.2) !default;
+$o-rwpst-focus-ring-strong: rgba($o-rwpst-blue, 0.45) !default;
+
+$o-rwpst-blue-tint-08: rgba($o-rwpst-blue, 0.08) !default;
+$o-rwpst-blue-tint-10: rgba($o-rwpst-blue, 0.1) !default;
+$o-rwpst-blue-tint-12: rgba($o-rwpst-blue, 0.12) !default;
+$o-rwpst-blue-tint-14: rgba($o-rwpst-blue, 0.14) !default;
+$o-rwpst-accent-tint-12: rgba($o-rwpst-accent, 0.12) !default;
+$o-rwpst-success-tint-12: rgba($o-rwpst-success, 0.12) !default;

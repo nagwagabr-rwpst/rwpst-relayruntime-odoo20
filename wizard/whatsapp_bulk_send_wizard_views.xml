@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- A-IMPORT: first-class app menu entry (MERGE-003). B form arch preserved. -->
+    <record id="action_whatsapp_new_bulk_send" model="ir.actions.act_window">
+        <field name="name">New Bulk Send</field>
+        <field name="res_model">whatsapp.bulk.send.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_whatsapp_bulk_send_wizard_form" model="ir.ui.view">
+        <field name="name">whatsapp.bulk.send.wizard.form</field>
+        <field name="model">whatsapp.bulk.send.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Send WhatsApp (Bulk)">
+                <sheet>
+                    <field name="state" invisible="1"/>
+                    <field name="processing_state" invisible="1"/>
+                    <notebook invisible="state == 'done'">
+                        <page string="Recipients" name="recipients">
+                            <group>
+                                <field name="recipient_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            </group>
+                        </page>
+                        <page string="Message" name="message">
+                            <group>
+                                <field name="message" placeholder="Type your message or select products to auto-generate..."/>
+                            </group>
+                        </page>
+                        <page string="Products" name="products">
+                            <group>
+                                <field name="product_ids" widget="many2many_tags"/>
+                                <field name="use_product_images"/>
+                                <field name="include_product_description"/>
+                            </group>
+                            <group string="Product Preview">
+                                <field name="product_preview" nolabel="1" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Attachments" name="attachments">
+                            <group>
+                                <field name="multi_attachment_count" readonly="1"/>
+                            </group>
+                            <field name="attachment_ids"
+                                widget="many2many_binary"
+                                nolabel="1"
+                                options="{'accepted_file_extensions': '.pdf,.jpg,.jpeg,.png,.gif,.webp,.mp4,.mpeg,.mp3,.ogg,.doc,.docx'}"/>
+                        </page>
+                    </notebook>
+
+                    <group string="Live Progress" invisible="processing_state != 'running'">
+                        <field name="progress_percent" widget="progressbar" options="{'max_value': 100}"/>
+                        <field name="current_recipient_name"/>
+                        <field name="current_product_name"/>
+                    </group>
+
+                    <group string="Campaign Summary" invisible="state != 'done'">
+                        <field name="campaign_id"/>
+                        <group>
+                            <field name="total_count"/>
+                            <field name="sent_count"/>
+                            <field name="failed_count"/>
+                            <field name="skipped_count"/>
+                            <field name="cooldown_count"/>
+                            <field name="total_attachments_sent"/>
+                        </group>
+                    </group>
+                    <group string="Message" invisible="state != 'done'">
+                        <field name="message" readonly="1" nolabel="1"/>
+                    </group>
+                    <group string="Products" invisible="state != 'done'">
+                        <field name="product_ids" readonly="1" widget="many2many_tags"/>
+                    </group>
+                    <group string="Attachments" invisible="state != 'done'">
+                        <field name="multi_attachment_count" readonly="1"/>
+                        <field name="attachment_ids"
+                            widget="many2many_binary"
+                            readonly="1"
+                            nolabel="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_send"
+                        string="Send"
+                        type="object"
+                        class="btn-primary"
+                        data-hotkey="q"
+                        invisible="state == 'done'"/>
+                    <button name="action_view_logs"
+                        string="View Logs"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="state != 'done'"/>
+                    <button name="action_cancel"
+                        string="Close"
+                        type="object"
+                        class="btn-secondary"
+                        data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

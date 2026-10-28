@@ -1,0 +1,20 @@
+id,name,model_id,group_id/id,operation,domain
+access_whatsapp_config_user,whatsapp.config.user,whatsapp.config,relayruntime.group_whatsapp_user,r,
+access_whatsapp_config_manager,whatsapp.config.manager,whatsapp.config,relayruntime.group_whatsapp_manager,crud,
+access_whatsapp_message_log_user,whatsapp.message.log.user,whatsapp.message.log,relayruntime.group_whatsapp_user,cr,
+access_whatsapp_message_log_manager,whatsapp.message.log.manager,whatsapp.message.log,relayruntime.group_whatsapp_manager,crud,
+access_whatsapp_send_wizard_user,whatsapp.send.wizard.user,whatsapp.send.wizard,relayruntime.group_whatsapp_user,crud,
+access_whatsapp_bulk_campaign_user,whatsapp.bulk.campaign.user,whatsapp.bulk.campaign,relayruntime.group_whatsapp_user,cru,
+access_whatsapp_bulk_campaign_manager,whatsapp.bulk.campaign.manager,whatsapp.bulk.campaign,relayruntime.group_whatsapp_manager,crud,
+access_whatsapp_bulk_execution_user,whatsapp.bulk.execution.user,whatsapp.bulk.execution,relayruntime.group_whatsapp_user,cr,
+access_whatsapp_bulk_execution_manager,whatsapp.bulk.execution.manager,whatsapp.bulk.execution,relayruntime.group_whatsapp_manager,crud,
+access_whatsapp_bulk_send_wizard_user,whatsapp.bulk.send.wizard.user,whatsapp.bulk.send.wizard,relayruntime.group_whatsapp_user,crud,
+access_whatsapp_product_selection_wizard_user,whatsapp.product.selection.wizard.user,whatsapp.product.selection.wizard,relayruntime.group_whatsapp_user,crud,
+access_whatsapp_product_selection_line_user,whatsapp.product.selection.line.user,whatsapp.product.selection.line,relayruntime.group_whatsapp_user,crud,
+access_whatsapp_delivery_dashboard_user,whatsapp.delivery.dashboard.user,whatsapp.delivery.dashboard,relayruntime.group_whatsapp_user,crud,
+access_whatsapp_app_dashboard_user,whatsapp.app.dashboard.user,whatsapp.app.dashboard,relayruntime.group_whatsapp_user,crud,
+access_whatsapp_dashboard_activity_line_user,whatsapp.dashboard.activity.line.user,whatsapp.dashboard.activity.line,relayruntime.group_whatsapp_user,crud,
+access_whatsapp_dashboard_running_line_user,whatsapp.dashboard.running.line.user,whatsapp.dashboard.running.line,relayruntime.group_whatsapp_user,crud,
+rule_whatsapp_message_log_company,WhatsApp Message Log: multi-company,whatsapp.message.log,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+rule_whatsapp_config_company,WhatsApp Config: multi-company,whatsapp.config,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+rule_whatsapp_bulk_campaign_company,WhatsApp Bulk Campaign: multi-company,whatsapp.bulk.campaign,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"

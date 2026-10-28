@@ -1,0 +1,97 @@
+// RWPST — derived Odoo tokens (loaded after web/static/src/scss/primary_variables.scss)
+// Requires relayruntime/static/src/scss/_rwpst_brand_tokens.scss via web._assets_primary_variables.
+
+$o-action: $o-rwpst-blue;$o-success: $o-rwpst-success;
+$o-info: $o-rwpst-info;
+$o-warning: $o-rwpst-warning;
+$o-danger: $o-rwpst-danger;
+
+$o-main-text-color: $o-rwpst-navy;
+$o-main-headings-color: $o-rwpst-navy;
+$o-main-link-color: $o-rwpst-blue-deep;
+$o-main-color-muted: rgba($o-rwpst-muted, $o-opacity-muted);
+
+$o-component-active-color: $o-rwpst-navy;
+$o-component-active-bg: $o-rwpst-blue-tint-12;
+$o-component-active-border: $o-rwpst-blue;
+$o-input-border-required: $o-rwpst-blue;
+
+$o-list-group-active-bg: $o-rwpst-blue-tint-12;
+
+$o-theme-text-colors: map-merge($o-theme-text-colors, (
+    "success": darken($o-rwpst-success, 6%),
+    "info": darken($o-rwpst-info, 8%),
+    "warning": darken($o-rwpst-accent, 10%),
+    "danger": darken($o-rwpst-danger, 4%),
+));
+
+$o-btns-bs-override: map-merge($o-btns-bs-override, (
+    "primary": (
+        background: $o-rwpst-blue,
+        border: $o-rwpst-blue-deep,
+        color: $o-white,
+
+        hover-background: $o-rwpst-blue-hover,
+        hover-border: $o-rwpst-blue-deep-hover,
+        hover-color: $o-white,
+
+        active-background: mix($o-rwpst-blue, $o-white, 15%),
+        active-border: $o-rwpst-blue-deep,
+        active-color: $o-rwpst-blue-deep,
+    ),
+    "secondary": (
+        background: $o-rwpst-card,
+        border: $o-rwpst-border,
+        color: $o-rwpst-navy,
+
+        hover-background: $o-rwpst-bg,
+        hover-border: $o-rwpst-blue,
+        hover-color: $o-rwpst-blue-deep,
+
+        active-background: $o-rwpst-blue-tint-12,
+        active-border: $o-rwpst-blue,
+        active-color: $o-rwpst-navy,
+    ),
+    "light": (
+        background: $o-white,
+        border: $o-rwpst-border,
+        color: $o-rwpst-navy,
+
+        hover-background: $o-rwpst-bg,
+        hover-border: $o-rwpst-blue,
+        hover-color: $o-rwpst-blue-deep,
+
+        active-background: $o-rwpst-blue-tint-12,
+        active-border: $o-rwpst-blue,
+        active-color: $o-rwpst-navy,
+    ),
+));
+
+$o-btns-bs-outline-override: map-merge($o-btns-bs-outline-override, (
+    "primary": (
+        background: transparent,
+        border: $o-rwpst-blue,
+        color: $o-rwpst-blue-deep,
+
+        hover-background: $o-rwpst-blue-tint-08,
+        hover-border: $o-rwpst-blue-hover,
+        hover-color: $o-rwpst-blue-deep,
+
+        active-background: $o-rwpst-blue-tint-12,
+        active-border: $o-rwpst-blue-deep,
+        active-color: $o-rwpst-navy,
+    ),
+    "secondary": (
+        background: transparent,
+        border: $o-rwpst-border,
+        color: $o-rwpst-navy,
+
+        hover-background: $o-rwpst-bg,
+        hover-border: $o-rwpst-blue,
+        hover-color: $o-rwpst-blue-deep,
+
+        active-background: $o-rwpst-blue-tint-12,
+        active-border: $o-rwpst-blue,
+        active-color: $o-rwpst-navy,
+    ),
+));

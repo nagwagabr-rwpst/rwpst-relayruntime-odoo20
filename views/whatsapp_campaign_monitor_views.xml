@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_whatsapp_campaign_monitor_kanban" model="ir.ui.view">
+        <field name="name">whatsapp.bulk.campaign.monitor.kanban</field>
+        <field name="model">whatsapp.bulk.campaign</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" create="false" js_class="whatsapp_campaign_monitor_kanban">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="progress_percentage"/>
+                <field name="processed_count"/>
+                <field name="remaining_count"/>
+                <field name="total_recipients"/>
+                <field name="sent_count"/>
+                <field name="failed_count"/>
+                <field name="skipped_count"/>
+                <field name="success_rate"/>
+                <field name="running_duration_seconds"/>
+                <field name="current_recipient_id"/>
+                <field name="current_recipient_number"/>
+                <field name="current_product_id"/>
+                <field name="current_step"/>
+                <field name="user_id"/>
+                <field name="monitor_elapsed_suffix"/>
+                <field name="monitor_progress_summary"/>
+                <field name="monitor_success_rate_text"/>
+                <field name="kanban_label_sent"/>
+                <field name="kanban_label_failed"/>
+                <field name="kanban_label_skipped"/>
+                <field name="kanban_label_current_recipient"/>
+                <field name="kanban_label_current_product"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-2">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                <field name="state" widget="badge"
+                                    decoration-success="state == 'completed'"
+                                    decoration-warning="state in ('running', 'draft')"
+                                    decoration-danger="state in ('failed', 'completed_with_errors')"
+                                    decoration-muted="state == 'stopped'"/>
+                            </div>
+                            <div class="text-muted small mb-2">
+                                <field name="user_id"/>
+                                <t t-if="record.running_duration_seconds.raw_value">
+                                    · <field name="running_duration_seconds" widget="float_time"/>
+                                    <field name="monitor_elapsed_suffix" class="oe_inline"/>
+                                </t>
+                            </div>
+                            <field name="progress_percentage" widget="progressbar" options="{'max_value': 100}"/>
+                            <div class="small text-muted mt-1">
+                                <field name="monitor_progress_summary"/>
+                            </div>
+                            <div class="mt-2" t-if="record.state.raw_value == 'running'">
+                                <div class="small">
+                                    <i class="fa fa-user me-1" t-att-title="record.kanban_label_current_recipient.raw_value"/>
+                                    <field name="current_recipient_id"/>
+                                    <span t-if="record.current_recipient_number.raw_value" class="text-muted">
+                                        (<field name="current_recipient_number"/>)
+                                    </span>
+                                </div>
+                                <div class="small" t-if="record.current_product_id.raw_value">
+                                    <i class="fa fa-cube me-1" t-att-title="record.kanban_label_current_product.raw_value"/>
+                                    <field name="current_product_id"/>
+                                </div>
+                                <div class="small text-info mt-1">
+                                    <field name="current_step"/>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <span class="badge text-bg-success me-1">
+                                    <field name="kanban_label_sent" class="oe_inline"/> <field name="sent_count"/>
+                                </span>
+                                <span class="badge text-bg-danger me-1">
+                                    <field name="kanban_label_failed" class="oe_inline"/> <field name="failed_count"/>
+                                </span>
+                                <span class="badge text-bg-secondary">
+                                    <field name="kanban_label_skipped" class="oe_inline"/> <field name="skipped_count"/>
+                                </span>
+                            </div>
+                            <div class="small mt-1">
+                                <field name="monitor_success_rate_text"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_campaign_monitor_search" model="ir.ui.view">
+        <field name="name">whatsapp.bulk.campaign.monitor.search</field>
+        <field name="model">whatsapp.bulk.campaign</field>
+        <field name="arch" type="xml">
+            <search string="Campaign Monitor">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="current_recipient_id"/>
+                <filter string="Running" name="filter_running" domain="[('state', '=', 'running')]"/>
+                <filter string="With Errors" name="filter_errors" domain="[('state', '=', 'completed_with_errors')]"/>
+                <filter string="Completed Today" name="filter_completed_today" domain="[
+                    ('state', 'in', ['completed', 'completed_with_errors']),
+                    ('execution_finished_at', '&gt;=', 'today'),
+                    ('execution_finished_at', '&lt;', 'today +1d'),
+                ]"/>
+                <group>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="User" name="group_user" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_campaign_monitor" model="ir.actions.act_window">
+        <field name="name">Campaign Monitor</field>
+        <field name="res_model">whatsapp.bulk.campaign</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="view_id" ref="view_whatsapp_campaign_monitor_kanban"/>
+        <field name="search_view_id" ref="view_whatsapp_campaign_monitor_search"/>
+        <field name="context">{
+            'search_default_filter_running': 1,
+            'whatsapp_monitor_auto_reload': True,
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No active campaigns
+            </p>
+            <p>
+                Running bulk sends appear here with live progress. This view refreshes every few seconds.
+            </p>
+        </field>
+    </record>
+
+</odoo>

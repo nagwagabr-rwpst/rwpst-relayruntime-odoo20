@@ -1,0 +1,311 @@
+// RWPST RelayRuntime — Command Center layout (banner, feeds, running strip)
+
+.o_rwpst_relayruntime {
+    .o_rr_app_header {
+        border-bottom: 1px solid var(--rwpst-border);
+        padding-bottom: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .o_rr_app_logo {
+        width: 3.25rem;
+        height: 3.25rem;
+        object-fit: contain;
+        border-radius: var(--rwpst-radius-lg);
+        box-shadow: var(--rwpst-shadow);
+    }
+
+    .o_rr_app_title {
+        font-size: 1.85rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        margin: 0;
+        color: var(--rwpst-navy);
+    }
+
+    .o_rr_app_subtitle {
+        color: var(--rwpst-muted);
+        margin: 0.25rem 0 0;
+        font-size: 0.95rem;
+    }
+
+    .o_rr_channel_badge {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #fff !important;
+    }
+
+    .o_rr_channel_whatsapp {
+        background: $o-rwpst-whatsapp !important;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 1px 4px rgba($o-rwpst-whatsapp, 0.35);
+        transition: background 0.15s ease, box-shadow 0.15s ease;
+
+        &:hover {
+            background: darken($o-rwpst-whatsapp, 6%) !important;
+            box-shadow: 0 2px 8px rgba($o-rwpst-whatsapp, 0.45);
+        }
+
+        &:active {
+            background: darken($o-rwpst-whatsapp, 10%) !important;
+        }
+    }
+
+    .o_rr_alert_bell {
+        color: var(--rwpst-warning);
+        transition: color 0.15s ease;
+
+        &:hover {
+            color: darken($o-rwpst-warning, 8%);
+        }
+
+        &:active {
+            color: darken($o-rwpst-warning, 14%);
+        }
+    }
+
+    .o_rr_alert_count_badge {
+        background-color: var(--rwpst-danger) !important;
+        transition: background-color 0.15s ease;
+
+        &:hover {
+            background-color: darken($o-rwpst-danger, 6%) !important;
+        }
+    }
+
+    .o_rr_running_title .fa-play-circle {
+        color: var(--rwpst-success);
+    }
+
+    .o_rr_section_label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--rwpst-muted);
+        margin-bottom: 0.65rem;
+    }
+
+    .o_rr_health_banner {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        gap: 0.75rem;
+        padding: 1rem 1.15rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--rwpst-border);
+        border-radius: var(--rwpst-radius-lg);
+        background: linear-gradient(
+            135deg,
+            var(--rwpst-navy) 0%,
+            var(--rwpst-blue-deep) 55%,
+            var(--rwpst-blue) 100%
+        );
+        color: #fff;
+        box-shadow: var(--rwpst-shadow);
+    }
+
+    .o_rr_health_metric {
+        text-align: center;
+        padding: 0.35rem 0.5rem;
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+        transition: background 0.15s ease, opacity 0.15s ease;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.06);
+            opacity: 0.95;
+        }
+
+        &:active {
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 1;
+        }
+
+        &:last-child {
+            border-right: none;
+        }
+
+        .o_rr_health_metric_label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            opacity: 0.85;
+            margin-bottom: 0.25rem;
+        }
+
+        .o_rr_health_metric_value {
+            font-size: 1.35rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .o_rr_health_metric_sub {
+            font-size: 0.72rem;
+            opacity: 0.8;
+            margin-top: 0.15rem;
+        }
+    }
+
+    .o_rr_health_banner .badge,
+    .o_rr_health_banner .o_field_widget .badge {
+        font-size: 0.72rem;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .o_rr_health_metric button {
+        color: inherit;
+    }
+
+    // KPI chips on health banner / dashboard surfaces
+    .o_rr_kpi {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 0.2rem 0.55rem;
+        border-radius: 1rem;
+
+        &.o_rr_kpi_success {
+            @include rwpst-kpi-badge($o-rwpst-success);
+        }
+
+        &.o_rr_kpi_warning {
+            @include rwpst-kpi-badge($o-rwpst-warning);
+        }
+
+        &.o_rr_kpi_danger {
+            @include rwpst-kpi-badge($o-rwpst-danger);
+        }
+
+        &.o_rr_kpi_info {
+            @include rwpst-kpi-badge($o-rwpst-info);
+        }
+    }
+
+    .o_rr_alerts_strip {
+        border-radius: var(--rwpst-radius-lg);
+        padding: 0.85rem 1.1rem;
+        margin-top: 1.25rem;
+        margin-bottom: 0.5rem;
+        @include rwpst-alert-strip($o-rwpst-warning);
+
+        &.o_rr_alerts_ok {
+            @include rwpst-alert-strip($o-rwpst-success);
+            color: var(--rwpst-navy);
+        }
+
+        &.o_rr_alerts_danger {
+            @include rwpst-alert-strip($o-rwpst-danger);
+        }
+
+        &.o_rr_alerts_info {
+            @include rwpst-alert-strip($o-rwpst-info);
+        }
+    }
+
+    .o_rr_alert_item {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.3rem 0;
+        font-size: 0.875rem;
+
+        .o_rr_alert_item_badge {
+            &.o_rr_alert_success {
+                @include rwpst-kpi-badge($o-rwpst-success);
+            }
+
+            &.o_rr_alert_warning {
+                @include rwpst-kpi-badge($o-rwpst-warning);
+            }
+
+            &.o_rr_alert_danger {
+                @include rwpst-kpi-badge($o-rwpst-danger);
+            }
+
+            &.o_rr_alert_info {
+                @include rwpst-kpi-badge($o-rwpst-info);
+            }
+        }
+    }
+
+    .o_rr_running_strip {
+        border: 1px solid var(--rwpst-border);
+        border-radius: var(--rwpst-radius-lg);
+        padding: 1rem 1.15rem;
+        background: var(--rwpst-card);
+        margin-bottom: 1.5rem;
+        box-shadow: var(--rwpst-shadow);
+    }
+
+    .o_rr_running_card {
+        border: 1px solid var(--rwpst-border);
+        border-radius: calc(var(--rwpst-radius-lg) - 0.15rem);
+        padding: 0.85rem;
+        height: 100%;
+        background: var(--rwpst-bg);
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+        &:hover {
+            border-color: rgba($o-rwpst-blue, 0.35);
+            box-shadow: 0 4px 12px rgba($o-rwpst-navy, 0.06);
+        }
+
+        &:active {
+            border-color: rgba($o-rwpst-blue, 0.5);
+        }
+    }
+
+    .o_rr_running_empty {
+        color: var(--rwpst-muted);
+        font-size: 0.875rem;
+        padding: 0.5rem 0;
+    }
+
+    .o_rr_activity_panel {
+        border: 1px solid var(--rwpst-border);
+        border-radius: var(--rwpst-radius-lg);
+        padding: 0.75rem 1rem 0.25rem;
+        background: var(--rwpst-card);
+        margin-bottom: 1rem;
+
+        .o_list_table {
+            --List-table-padding-x: 0.5rem;
+        }
+    }
+
+    .o_rr_running_kanban .o_kanban_record {
+        flex: 1 1 14rem;
+        max-width: 100%;
+    }
+
+    @media (max-width: 767.98px) {
+        .o_rr_app_title {
+            font-size: 1.45rem;
+        }
+
+        .o_rr_health_banner {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .o_rr_health_metric:nth-child(2n) {
+            border-right: none;
+        }
+
+        .o_rr_health_metric {
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
+        }
+    }
+}
+
+// Launcher: hide default form chrome noise inside scoped app shell
+.o_whatsapp_app_launcher.o_rwpst_relayruntime {
+    .o_form_statusbar,
+    .o_form_button_save,
+    .o_form_button_cancel {
+        display: none !important;
+    }
+}

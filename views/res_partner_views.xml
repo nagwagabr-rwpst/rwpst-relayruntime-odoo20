@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_whatsapp" model="ir.ui.view">
+        <field name="name">res.partner.form.whatsapp</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_send_whatsapp"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-whatsapp"
+                    string="Send WhatsApp"
+                    groups="relayruntime.group_whatsapp_user"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_whatsapp_bulk" model="ir.ui.view">
+        <field name="name">res.partner.list.whatsapp.bulk</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <header>
+                    <button name="action_whatsapp_bulk_send_list"
+                        type="object"
+                        string="WhatsApp Bulk Send"
+                        icon="fa-whatsapp"
+                        display="always"
+                        groups="relayruntime.group_whatsapp_user"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_bulk_send_partner" model="ir.actions.act_window">
+        <field name="name">Send WhatsApp</field>
+        <field name="res_model">whatsapp.bulk.send.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">list</field>
+    </record>
+
+</odoo>

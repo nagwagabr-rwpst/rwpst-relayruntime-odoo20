@@ -1,0 +1,227 @@
+// RWPST RelayRuntime — workspace tiles & lifecycle rail
+
+.o_rwpst_relayruntime {
+    .o_rr_lifecycle {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.35rem 0.45rem;
+        padding: 0.85rem 1rem;
+        border: 1px solid var(--rwpst-border);
+        border-radius: var(--rwpst-radius-lg);
+        background: var(--rwpst-card);
+        margin-bottom: 1.5rem;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                90deg,
+                rgba($o-rwpst-funnel-draft, 0.08) 0%,
+                rgba($o-rwpst-funnel-scheduled, 0.08) 33%,
+                rgba($o-rwpst-funnel-sent, 0.08) 66%,
+                rgba($o-rwpst-funnel-converted, 0.08) 100%
+            );
+            pointer-events: none;
+        }
+    }
+
+    .o_rr_lifecycle_step {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 0.75rem;
+        border-radius: 2rem;
+        border: 1px solid var(--rwpst-border);
+        font-size: 0.78rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease,
+            transform 0.12s ease, opacity 0.12s ease;
+
+        &.o_rr_lifecycle_step_draft {
+            @include rwpst-lifecycle-step($o-rwpst-funnel-draft);
+        }
+
+        &.o_rr_lifecycle_step_scheduled {
+            @include rwpst-lifecycle-step($o-rwpst-funnel-scheduled);
+        }
+
+        &.o_rr_lifecycle_step_sent {
+            @include rwpst-lifecycle-step($o-rwpst-funnel-sent);
+        }
+
+        &.o_rr_lifecycle_step_converted {
+            @include rwpst-lifecycle-step($o-rwpst-funnel-converted);
+        }
+    }
+
+    .o_rr_lifecycle_arrow {
+        position: relative;
+        z-index: 1;
+        color: var(--rwpst-muted);
+        font-size: 0.65rem;
+        user-select: none;
+    }
+
+    .o_rr_workspace_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .o_rr_workspace_tile {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-height: 9.5rem;
+        padding: 1rem 1rem 0.75rem;
+        border: 1px solid var(--rwpst-border) !important;
+        border-radius: var(--rwpst-radius-lg);
+        text-align: left;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease,
+            background 0.15s ease;
+        cursor: pointer;
+        box-shadow: 0 1px 3px rgba($o-rwpst-navy, 0.04);
+
+        &.o_rr_tile_projects {
+            @include rwpst-tile-variant($o-rwpst-tile-projects);
+        }
+
+        &.o_rr_tile_contacts {
+            @include rwpst-tile-variant($o-rwpst-tile-contacts);
+        }
+
+        &.o_rr_tile_templates {
+            @include rwpst-tile-variant($o-rwpst-tile-templates);
+        }
+
+        &.o_rr_tile_campaigns {
+            @include rwpst-tile-variant($o-rwpst-tile-campaigns);
+        }
+
+        &.o_rr_tile_inbox {
+            @include rwpst-tile-variant($o-rwpst-tile-inbox);
+        }
+
+        &.o_rr_tile_analytics {
+            @include rwpst-tile-variant($o-rwpst-tile-analytics);
+        }
+
+        &.o_rr_tile_settings {
+            @include rwpst-tile-variant($o-rwpst-tile-settings);
+        }
+
+        &.o_rr_tile_primary {
+            @include rwpst-tile-variant($o-rwpst-blue);
+            border-color: rgba($o-rwpst-blue, $o-rwpst-tile-border-hover);
+        }
+    }
+
+    .o_rr_tile_icon {
+        font-size: 1.75rem;
+        margin-bottom: 0.45rem;
+        line-height: 1;
+    }
+
+    .o_rr_tile_title {
+        font-weight: 700;
+        font-size: 0.95rem;
+        margin-bottom: 0.2rem;
+        color: var(--rwpst-navy);
+    }
+
+    .o_rr_tile_desc {
+        font-size: 0.72rem;
+        color: var(--rwpst-muted);
+        line-height: 1.4;
+        flex-grow: 1;
+        margin-bottom: 0.35rem;
+    }
+
+    .o_rr_tile_kpi {
+        display: inline-block;
+        font-size: 0.68rem;
+        font-weight: 700;
+        padding: 0.15rem 0.5rem;
+        border-radius: 1rem;
+        margin-bottom: 0.35rem;
+        @include rwpst-kpi-badge($o-rwpst-info);
+
+        &.o_rr_tile_kpi_success {
+            @include rwpst-kpi-badge($o-rwpst-success);
+        }
+
+        &.o_rr_tile_kpi_warning {
+            @include rwpst-kpi-badge($o-rwpst-warning);
+        }
+
+        &.o_rr_tile_kpi_danger {
+            @include rwpst-kpi-badge($o-rwpst-danger);
+        }
+
+        &.o_rr_tile_kpi_accent {
+            @include rwpst-kpi-badge($o-rwpst-accent);
+        }
+    }
+
+    .o_rr_tile_cta {
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: var(--rwpst-muted);
+        letter-spacing: 0.02em;
+        margin-top: auto;
+
+        .fa {
+            font-size: 0.6rem;
+            margin-left: 0.2rem;
+            transition: transform 0.12s ease;
+        }
+    }
+
+    .o_rr_workspace_tile:active .o_rr_tile_cta .fa,
+    .o_rr_workspace_tile.active .o_rr_tile_cta .fa {
+        transform: translateX(2px);
+    }
+
+    .o_rr_tile_badge {
+        position: absolute;
+        top: 0.65rem;
+        right: 0.65rem;
+        min-width: 1.35rem;
+        font-size: 0.68rem;
+        font-weight: 700;
+    }
+
+    @media (max-width: 575.98px) {
+        .o_rr_workspace_grid {
+            grid-template-columns: 1fr;
+        }
+
+        .o_rr_lifecycle {
+            justify-content: center;
+        }
+
+        .o_rr_lifecycle_arrow {
+            display: none;
+        }
+
+        .o_rr_lifecycle_step {
+            flex: 1 1 calc(50% - 0.5rem);
+            justify-content: center;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .o_rr_workspace_grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+}

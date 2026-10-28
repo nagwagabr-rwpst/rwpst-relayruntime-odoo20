@@ -1,0 +1,5 @@
+// RWPST — component-level variable overrides (after Odoo *.variables.scss)
+// Requires relayruntime/static/src/scss/_rwpst_brand_tokens.scss via web._assets_primary_variables.
+
+$o-burger-topbar-bg: $o-rwpst-blue-deep;
+$o-burger-topbar-color: #fff;

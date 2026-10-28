@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_whatsapp_delivery_dashboard_form" model="ir.ui.view">
+        <field name="name">whatsapp.delivery.dashboard.form</field>
+        <field name="model">whatsapp.delivery.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Delivery Dashboard" create="false" edit="false" delete="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Delivery Overview</h1>
+                    </div>
+                    <group>
+                        <group string="Counters">
+                            <field name="total_sent"/>
+                            <field name="total_failed"/>
+                            <field name="total_skipped"/>
+                            <field name="total_processed"/>
+                        </group>
+                        <group string="Performance">
+                            <field name="success_rate" widget="progressbar" options="{'max_value': 100}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_open_sent_logs" type="object" string="Sent Logs" class="btn-primary"/>
+                    <button name="action_open_failed_logs" type="object" string="Failed Logs" class="btn-secondary"/>
+                    <button name="action_open_skipped_logs" type="object" string="Skipped Logs" class="btn-secondary"/>
+                    <button name="action_open_all_logs" type="object" string="All Logs"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_delivery_dashboard" model="ir.actions.server">
+        <field name="name">Delivery Dashboard</field>
+        <field name="model_id" ref="model_whatsapp_delivery_dashboard"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_dashboard()</field>
+    </record>
+
+    <!-- menu_whatsapp_delivery_dashboard is defined once in views/whatsapp_menu.xml
+         (Analytics hierarchy). Do not redeclare here — breaks fresh install load order. -->
+
+</odoo>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_whatsapp_config_list" model="ir.ui.view">
+        <field name="name">whatsapp.config.list</field>
+        <field name="model">whatsapp.config</field>
+        <field name="arch" type="xml">
+            <list string="WhatsApp Settings">
+                <field name="name"/>
+                <field name="provider_type"/>
+                <field name="is_test_mode" column_invisible="1"/>
+                <field name="provider_status" widget="badge"
+                    decoration-success="provider_status == 'healthy'"
+                    decoration-warning="provider_status == 'degraded' or is_test_mode"
+                    decoration-danger="provider_status == 'disconnected'"/>
+                <field name="api_url" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_config_form" model="ir.ui.view">
+        <field name="name">whatsapp.config.form</field>
+        <field name="model">whatsapp.config</field>
+        <field name="arch" type="xml">
+            <form string="WhatsApp Configuration">
+                <header>
+                    <button name="action_test_connection"
+                        type="object"
+                        string="Test Connection"
+                        class="btn-primary"
+                        invisible="not provider_implemented"
+                        groups="relayruntime.group_whatsapp_manager"/>
+                    <button name="action_provider_self_test"
+                        type="object"
+                        string="Provider Self-Test"
+                        class="btn-secondary"
+                        invisible="not provider_implemented"
+                        groups="relayruntime.group_whatsapp_manager"/>
+                    <field name="provider_status" widget="statusbar"
+                        statusbar_visible="healthy,degraded,disconnected"/>
+                </header>
+                <sheet>
+                    <field name="is_test_mode" invisible="1"/>
+                    <field name="test_mode_alert_title" invisible="1"/>
+                    <field name="test_mode_alert_body" invisible="1"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <widget name="web_ribbon" title="TEST MODE - NO REAL MESSAGES"
+                        bg_color="text-bg-warning"
+                        invisible="not is_test_mode"/>
+                    <div class="alert alert-warning mb-3" role="alert" invisible="not is_test_mode">
+                        <strong><field name="test_mode_alert_title" nolabel="1" readonly="1" class="d-inline"/></strong>
+                        <field name="test_mode_alert_body" nolabel="1" readonly="1"/>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Configuration name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Provider">
+                            <field name="provider_type" widget="radio"/>
+                            <field name="provider_name" readonly="1"/>
+                            <field name="provider_version" readonly="1"/>
+                            <field name="provider_implemented" invisible="1"/>
+                            <field name="active"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Health">
+                            <field name="last_successful_connection"/>
+                            <field name="last_failed_connection"/>
+                            <field name="provider_latency_ms"/>
+                            <field name="last_error"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Credentials" name="credentials"
+                            invisible="provider_type == 'mock_provider'">
+                            <group>
+                                <group string="Common">
+                                    <field name="api_url" placeholder="https://api.green-api.com"/>
+                                    <field name="access_token" password="True"/>
+                                    <field name="api_version"/>
+                                </group>
+                                <group string="Provider-Specific">
+                                    <field name="instance_id"
+                                        invisible="provider_type != 'green_api'"
+                                        required="provider_type == 'green_api'"/>
+                                    <field name="phone_number_id"
+                                        invisible="provider_type != 'meta_cloud'"/>
+                                    <field name="business_account_id"
+                                        invisible="provider_type not in ('meta_cloud', 'custom')"/>
+                                    <field name="webhook_secret" password="True"
+                                        invisible="provider_type not in ('meta_cloud', 'green_api', 'evolution', 'custom')"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Mock Simulation" name="mock_simulation"
+                            invisible="provider_type != 'mock_provider'">
+                            <group>
+                                <group string="Outcome Rates (weighted random)">
+                                    <field name="simulate_success_rate"/>
+                                    <field name="simulate_failure_rate"/>
+                                    <field name="simulate_timeout_rate"/>
+                                    <field name="simulate_rate_limit_rate"/>
+                                    <field name="simulate_attachment_failure_rate"/>
+                                </group>
+                                <group string="Performance">
+                                    <field name="simulated_latency_ms"/>
+                                    <field name="mock_force_auth_failure"/>
+                                    <field name="mock_force_disconnect"/>
+                                </group>
+                            </group>
+                            <group string="Deterministic test numbers">
+                                <div class="text-muted">
+                                    Use these normalized numbers on contacts to force specific outcomes:
+                                    201000000000 invalid · 201111111111 auth · 201222222222 disconnect ·
+                                    201333333333 timeout · 201444444444 rate limit · 201555555555 malformed ·
+                                    201666666666 attachment fail
+                                </div>
+                            </group>
+                        </page>
+                        <page string="Capabilities" name="capabilities">
+                            <group>
+                                <field name="provider_capabilities_json" nolabel="1" readonly="1"
+                                    widget="text"/>
+                            </group>
+                        </page>
+                        <page string="Safety" name="safety">
+                            <group>
+                                <group>
+                                    <field name="min_delay_seconds"/>
+                                    <field name="max_delay_seconds"/>
+                                    <field name="cooldown_every_messages"/>
+                                    <field name="cooldown_duration_seconds"/>
+                                </group>
+                                <group>
+                                    <field name="daily_send_limit"/>
+                                    <field name="max_attachments_per_message"/>
+                                    <field name="max_attachment_size_mb"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Observability" name="observability"
+                            groups="relayruntime.group_whatsapp_manager">
+                            <group>
+                                <field name="file_log_enabled"/>
+                                <field name="file_log_path" invisible="not file_log_enabled"/>
+                            </group>
+                        </page>
+                        <page string="Advanced" name="advanced"
+                            groups="relayruntime.group_whatsapp_manager">
+                            <group>
+                                <field name="fallback_config_id"/>
+                                <field name="provider_debug_info" nolabel="1" readonly="1" widget="text"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_config" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">whatsapp.config</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure your WhatsApp provider
+            </p>
+            <p>
+                Select <strong>Green API</strong> for production or
+                <strong>Mock Provider</strong> for safe testing without sending real messages.
+            </p>
+        </field>
+    </record>
+
+</odoo>

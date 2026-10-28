@@ -1,0 +1,169 @@
+// RWPST RelayRuntime — brand overrides scoped to Command Center
+
+.o_rwpst_relayruntime {
+    --rwpst-navy: #{$o-rwpst-navy};
+    --rwpst-blue-deep: #{$o-rwpst-blue-deep};
+    --rwpst-blue: #{$o-rwpst-blue};
+    --rwpst-whatsapp: #{$o-rwpst-whatsapp};
+    --rwpst-accent: #{$o-rwpst-accent};
+    --rwpst-success: #{$o-rwpst-success};
+    --rwpst-warning: #{$o-rwpst-warning};
+    --rwpst-danger: #{$o-rwpst-danger};
+    --rwpst-info: #{$o-rwpst-info};
+    --rwpst-bg: #{$o-rwpst-bg};
+    --rwpst-card: #{$o-rwpst-card};
+    --rwpst-muted: #{$o-rwpst-muted};
+    --rwpst-border: #{$o-rwpst-border};
+    --rwpst-tile-projects: #{$o-rwpst-tile-projects};
+    --rwpst-tile-contacts: #{$o-rwpst-tile-contacts};
+    --rwpst-tile-templates: #{$o-rwpst-tile-templates};
+    --rwpst-tile-campaigns: #{$o-rwpst-tile-campaigns};
+    --rwpst-tile-inbox: #{$o-rwpst-tile-inbox};
+    --rwpst-tile-analytics: #{$o-rwpst-tile-analytics};
+    --rwpst-tile-settings: #{$o-rwpst-tile-settings};
+    --rwpst-funnel-draft: #{$o-rwpst-funnel-draft};
+    --rwpst-funnel-scheduled: #{$o-rwpst-funnel-scheduled};
+    --rwpst-funnel-sent: #{$o-rwpst-funnel-sent};
+    --rwpst-funnel-converted: #{$o-rwpst-funnel-converted};
+    --rwpst-radius-lg: 0.75rem;
+    --rwpst-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+    --rwpst-shadow-hover: 0 8px 24px rgba(37, 99, 235, 0.14);
+
+    color: $o-rwpst-navy;
+
+    .text-primary {
+        color: $o-rwpst-blue !important;
+    }
+
+    .text-success {
+        color: $o-rwpst-success !important;
+    }
+
+    .text-warning {
+        color: $o-rwpst-warning !important;
+    }
+
+    .text-danger {
+        color: $o-rwpst-danger !important;
+    }
+
+    .text-info {
+        color: $o-rwpst-info !important;
+    }
+
+    .text-muted {
+        color: $o-rwpst-muted !important;
+    }
+
+    .btn-primary,
+    .o_rr_btn_accent {
+        background-color: $o-rwpst-blue;
+        border-color: $o-rwpst-blue-deep;
+        transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+
+        &:hover,
+        &:focus {
+            background-color: darken($o-rwpst-blue, 8%);
+            border-color: darken($o-rwpst-blue-deep, 6%);
+        }
+
+        &:active {
+            background-color: darken($o-rwpst-blue, 14%);
+            border-color: darken($o-rwpst-blue-deep, 10%);
+        }
+    }
+
+    .o_rr_btn_accent {
+        background-color: $o-rwpst-accent;
+        border-color: darken($o-rwpst-accent, 8%);
+
+        &:hover,
+        &:focus {
+            background-color: darken($o-rwpst-accent, 6%);
+            border-color: darken($o-rwpst-accent, 12%);
+        }
+
+        &:active {
+            background-color: darken($o-rwpst-accent, 12%);
+        }
+    }
+
+    .o_rr_btn_whatsapp {
+        background-color: $o-rwpst-whatsapp;
+        border-color: darken($o-rwpst-whatsapp, 8%);
+        color: #fff;
+
+        &:hover,
+        &:focus {
+            background-color: darken($o-rwpst-whatsapp, 6%);
+            border-color: darken($o-rwpst-whatsapp, 12%);
+        }
+
+        &:active {
+            background-color: darken($o-rwpst-whatsapp, 10%);
+        }
+    }
+
+    .btn-secondary {
+        color: $o-rwpst-navy;
+        border-color: $o-rwpst-border;
+        background: $o-rwpst-card;
+
+        &:hover {
+            background: $o-rwpst-bg;
+            border-color: $o-rwpst-blue;
+            color: $o-rwpst-blue-deep;
+        }
+
+        &:active {
+            background: darken($o-rwpst-bg, 3%);
+            border-color: darken($o-rwpst-blue, 6%);
+        }
+    }
+
+    .badge.text-bg-success,
+    .text-bg-success {
+        background-color: $o-rwpst-success !important;
+        transition: background-color 0.15s ease;
+
+        &:hover {
+            background-color: darken($o-rwpst-success, 6%) !important;
+        }
+    }
+
+    .badge.text-bg-warning,
+    .text-bg-warning {
+        background-color: $o-rwpst-warning !important;
+        color: $o-rwpst-navy !important;
+        transition: background-color 0.15s ease;
+
+        &:hover {
+            background-color: darken($o-rwpst-warning, 6%) !important;
+        }
+    }
+
+    .badge.text-bg-danger,
+    .text-bg-danger {
+        background-color: $o-rwpst-danger !important;
+        transition: background-color 0.15s ease;
+
+        &:hover {
+            background-color: darken($o-rwpst-danger, 6%) !important;
+        }
+    }
+
+    .badge.text-bg-info,
+    .text-bg-info {
+        background-color: $o-rwpst-info !important;
+        transition: background-color 0.15s ease;
+
+        &:hover {
+            background-color: darken($o-rwpst-info, 6%) !important;
+        }
+    }
+
+    .o_form_sheet_bg,
+    .o_form_sheet {
+        background: $o-rwpst-bg;
+    }
+}

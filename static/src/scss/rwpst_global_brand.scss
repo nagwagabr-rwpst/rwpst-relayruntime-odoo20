@@ -1,0 +1,378 @@
+// RWPST RelayRuntime — global ERP branding layer
+// Targets navbar, sidebar, menus, forms, kanban, login, badges, alerts, and search.
+// Requires relayruntime/static/src/scss/_rwpst_brand_tokens.scss via asset bundles.
+
+:root {
+    --rwpst-brand-primary: #{$o-rwpst-blue};
+    --rwpst-brand-deep: #{$o-rwpst-blue-deep};
+    --rwpst-brand-navy: #{$o-rwpst-navy};
+    --rwpst-brand-accent: #{$o-rwpst-accent};
+    --rwpst-brand-success: #{$o-rwpst-success};
+    --rwpst-brand-surface: #{$o-rwpst-bg};
+    --rwpst-brand-border: #{$o-rwpst-border};
+    --rwpst-brand-focus-ring: #{$o-rwpst-focus-ring};
+}
+
+// —— Top navbar & systray ——
+.o_main_navbar {
+    background: $o-rwpst-blue-deep;
+    border-bottom-color: $o-rwpst-blue-deep-active;
+
+    --NavBar-entry-color: rgba(255, 255, 255, 0.92);
+    --NavBar-entry-color--hover: #fff;
+    --NavBar-entry-color--active: #fff;
+    --NavBar-brand-color: #fff;
+    --NavBar-entry-backgroundColor--hover: #{rgba(255, 255, 255, 0.1)};
+    --NavBar-entry-backgroundColor--focus: #{rgba(255, 255, 255, 0.12)};
+    --NavBar-entry-backgroundColor--active: #{rgba(255, 255, 255, 0.16)};
+    --o-navbar-badge-bg: #{$o-rwpst-accent};
+}
+
+.o_loading_indicator {
+    background-color: $o-rwpst-blue;
+}
+
+// —— App menu & section dropdowns ——
+.o_main_navbar .dropdown-menu {
+    --dropdown-link-active-bg: #{$o-rwpst-blue-tint-12};
+    --dropdown-link-active-color: #{$o-rwpst-blue-deep};
+
+    .dropdown-item {
+        &.active,
+        &:active {
+            background-color: $o-rwpst-blue-tint-12;
+            color: $o-rwpst-blue-deep;
+        }
+
+        &:hover,
+        &:focus {
+            background-color: $o-rwpst-blue-tint-08;
+            color: $o-rwpst-navy;
+        }
+    }
+
+    .dropdown-header,
+    .dropdown-menu_group {
+        color: $o-rwpst-muted;
+    }
+}
+
+.o_navbar_apps_menu .dropdown-menu {
+    .o_app {
+        &:hover,
+        &:focus {
+            background: $o-rwpst-blue-tint-08;
+        }
+
+        &.o_app_active,
+        &.active {
+            background: $o-rwpst-blue-tint-14;
+
+            .o_caption {
+                color: $o-rwpst-blue-deep;
+            }
+        }
+    }
+}
+
+// —— Mobile / app sidebar ——
+.o_burger_menu,
+.o_app_menu_sidebar {
+    .o_sidebar_topbar,
+    .o_burger_menu_topbar {
+        background-color: $o-rwpst-blue-deep;
+        color: #fff;
+    }
+
+    .o_burger_menu_content li,
+    .o_burger_menu_content button {
+        &:hover,
+        &:focus {
+            color: $o-rwpst-blue-deep;
+        }
+
+        &.active,
+        &:active {
+            color: $o-rwpst-blue;
+        }
+    }
+}
+
+// —— Breadcrumbs & control panel ——
+.o_control_panel {
+    .o_breadcrumb a,
+    .o_back_button a {
+        color: $o-rwpst-blue-deep;
+
+        &:hover {
+            color: $o-rwpst-blue;
+        }
+    }
+
+    .o_last_breadcrumb_item,
+    .o_last_breadcrumb_item a {
+        color: $o-rwpst-navy;
+    }
+
+    .o_cp_switch_buttons .btn.active,
+    .o_cp_switch_buttons .btn-check:checked + .btn {
+        background-color: $o-rwpst-blue-tint-12;
+        border-color: $o-rwpst-blue;
+        color: $o-rwpst-blue-deep;
+    }
+}
+
+// —— Search bar & facets ——
+.o_searchview {
+    &:focus-within {
+        border-color: $o-rwpst-blue;
+        box-shadow: 0 0 0 0.15rem $o-rwpst-focus-ring;
+    }
+}
+
+.o_searchview_facet {
+    .o_searchview_facet_label {
+        background-color: $o-rwpst-blue-deep;
+        color: #fff;
+    }
+}
+
+.o_mobile_search .o_mobile_search_header {
+    --mobileSearch__header-bg: #{$o-rwpst-blue-deep};
+}
+
+// —— Backend chrome: buttons, links, badges ——
+.o_web_client {
+    .btn-primary,
+    .btn-fill-primary {
+        background-color: $o-rwpst-blue;
+        border-color: $o-rwpst-blue-deep;
+
+        &:hover,
+        &:focus {
+            background-color: $o-rwpst-blue-hover;
+            border-color: $o-rwpst-blue-deep-hover;
+        }
+
+        &:active {
+            background-color: $o-rwpst-blue-active;
+            border-color: $o-rwpst-blue-deep-active;
+        }
+    }
+
+    .btn-secondary,
+    .btn-light,
+    .btn-outline-secondary {
+        &:hover,
+        &:focus {
+            border-color: $o-rwpst-blue;
+            color: $o-rwpst-blue-deep;
+        }
+
+        &:active {
+            background-color: $o-rwpst-blue-tint-12;
+            border-color: $o-rwpst-blue;
+            color: $o-rwpst-navy;
+        }
+    }
+
+    .btn-outline-primary {
+        color: $o-rwpst-blue-deep;
+        border-color: $o-rwpst-blue;
+
+        &:hover,
+        &:focus {
+            background-color: $o-rwpst-blue-tint-08;
+            border-color: $o-rwpst-blue-hover;
+            color: $o-rwpst-blue-deep;
+        }
+
+        &:active {
+            background-color: $o-rwpst-blue-tint-12;
+            border-color: $o-rwpst-blue-deep;
+        }
+    }
+
+    a:not(.btn):not(.nav-link):not(.dropdown-item) {
+        color: $o-rwpst-blue-deep;
+
+        &:hover {
+            color: $o-rwpst-blue;
+        }
+    }
+
+    .badge.text-bg-primary,
+    .text-bg-primary {
+        background-color: $o-rwpst-blue !important;
+    }
+
+    .badge.text-bg-success,
+    .text-bg-success {
+        background-color: $o-rwpst-success !important;
+    }
+
+    .badge.text-bg-warning,
+    .text-bg-warning {
+        background-color: $o-rwpst-accent !important;
+        color: #fff !important;
+    }
+
+    .text-primary {
+        color: $o-rwpst-blue !important;
+    }
+
+    .text-success {
+        color: $o-rwpst-success !important;
+    }
+
+    .text-warning {
+        color: $o-rwpst-accent !important;
+    }
+
+    .o_field_widget .o_external_button {
+        color: $o-rwpst-blue;
+    }
+
+    .nav-pills .nav-link.active,
+    .nav-pills .show > .nav-link {
+        background-color: $o-rwpst-blue;
+    }
+
+    .nav-tabs .nav-link.active {
+        border-bottom-color: $o-rwpst-blue;
+        color: $o-rwpst-blue-deep;
+    }
+
+    .page-item.active .page-link {
+        background-color: $o-rwpst-blue;
+        border-color: $o-rwpst-blue-deep;
+    }
+
+    .progress-bar {
+        background-color: $o-rwpst-blue;
+    }
+
+    .form-check-input:checked {
+        background-color: $o-rwpst-blue;
+        border-color: $o-rwpst-blue-deep;
+    }
+
+    .form-check-input:focus {
+        border-color: $o-rwpst-blue;
+        box-shadow: 0 0 0 0.15rem $o-rwpst-focus-ring;
+    }
+
+    .o_form_view .oe_stat_button .o_stat_value,
+    .o_form_view .oe_stat_button .o_stat_text {
+        color: $o-rwpst-blue;
+    }
+}
+
+// —— Alerts (RWPST orange accent) ——
+.alert-warning {
+    --bs-alert-color: #{darken($o-rwpst-accent, 18%)};
+    --bs-alert-bg: #{$o-rwpst-accent-tint-12};
+    --bs-alert-border-color: #{rgba($o-rwpst-accent, 0.35)};
+}
+
+.alert-info {
+    --bs-alert-color: #{darken($o-rwpst-blue, 12%)};
+    --bs-alert-bg: #{$o-rwpst-blue-tint-12};
+    --bs-alert-border-color: #{rgba($o-rwpst-blue, 0.3)};
+}
+
+.alert-success {
+    --bs-alert-color: #{darken($o-rwpst-success, 18%)};
+    --bs-alert-bg: #{$o-rwpst-success-tint-12};
+    --bs-alert-border-color: #{rgba($o-rwpst-success, 0.35)};
+}
+
+// —— Kanban ——
+.o_kanban_renderer {
+    .o_kanban_group.o_kanban_hover .o_kanban_header {
+        background: $o-rwpst-blue-tint-08;
+    }
+
+    .o_kanban_record:focus-visible,
+    .o_kanban_selection_active .o_kanban_record:focus {
+        outline-color: $o-rwpst-blue;
+    }
+
+    .o_kanban_quick_create .o_kanban_add {
+        color: $o-rwpst-blue-deep;
+
+        &:hover {
+            color: $o-rwpst-blue;
+        }
+    }
+}
+
+// —— File upload & export dialogs ——
+.o_file_upload_progress_bar {
+    background-color: $o-rwpst-blue;
+    border-right-color: $o-rwpst-blue-deep-hover;
+}
+
+.o_export_data_dialog .o_export_tree_item.selected > .o_tree_column {
+    background: rgba($o-rwpst-blue-deep, 0.2);
+}
+
+.o_export_data_dialog .o_export_tree_item.selected > .o_tree_column:hover {
+    background: rgba($o-rwpst-blue-deep, 0.35);
+}
+
+// —— Settings mobile tabs ——
+.o_base_settings_view .o_mobile_tabs .tab.selected {
+    background: $o-rwpst-blue;
+}
+
+// —— App launcher background ——
+.o_home_menu_background {
+    background: linear-gradient(160deg, $o-rwpst-navy 0%, $o-rwpst-blue-deep 45%, $o-rwpst-blue 100%);
+}
+
+// —— Barcode / icon accents ——
+.o_barcode {
+    background-color: $o-rwpst-blue;
+}
+
+// —— Login & frontend auth ——
+body.bg-100,
+.o_database_list {
+    background-color: $o-rwpst-bg !important;
+
+    .btn-primary {
+        background-color: $o-rwpst-blue;
+        border-color: $o-rwpst-blue-deep;
+
+        &:hover,
+        &:focus {
+            background-color: $o-rwpst-blue-hover;
+            border-color: $o-rwpst-blue-deep-hover;
+        }
+
+        &:active {
+            background-color: $o-rwpst-blue-active;
+            border-color: $o-rwpst-blue-deep-active;
+        }
+    }
+
+    a {
+        color: $o-rwpst-blue-deep;
+
+        &:hover {
+            color: $o-rwpst-blue;
+        }
+    }
+
+    .border-bottom,
+    .border-top {
+        border-color: $o-rwpst-border !important;
+    }
+}
+
+// —— List selection highlights ——
+.o_list_view .o_data_row.o_data_row_selected,
+.o_list_view .table-active {
+    --table-active-bg: #{$o-rwpst-blue-tint-10};
+}
