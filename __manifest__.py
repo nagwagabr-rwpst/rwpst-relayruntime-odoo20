@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-# RelayRuntime — Odoo application layer (ERP integration + orchestration entrypoint).
-# Runtime engine extraction target: repository /runtime/ (see docs/architecture/runtime-boundaries.md).
-# Reconstruction: Lineage B foundation + Lineage A enterprise UI (MERGE-003).
+# RelayRuntime for Odoo 20 Community.
 
 {
 

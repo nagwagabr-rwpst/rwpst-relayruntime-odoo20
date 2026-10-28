@@ -27,7 +27,7 @@ git clone https://github.com/nagwagabr-rwpst/rwpst-relayruntime-odoo20.git relay
 - One active provider configuration per company
 - Live sending through Green API, and a Mock Provider for demos and tests
 
-The Apps Store description is `static/description/index.html`.
+The Apps Store description is `static/description/index.html`. `demo.gif` is not referenced by the manifest. `static/description/demo.gif.md` is only a note for a future recording.
 
 ## Security notes
 
