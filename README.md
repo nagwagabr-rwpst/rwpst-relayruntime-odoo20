@@ -11,12 +11,12 @@ WhatsApp campaigns and bulk sending for **Odoo 20 Community**, with a delivery d
 
 ## Install
 
-1. Clone this repository into a directory named `relayruntime` on the Odoo addons path. Odoo uses the directory name as the module name, and the manifest, XML IDs, and assets expect that name.
+1. Clone this repository and add the repository root to the Odoo addons path. The module directory is `relayruntime/`.
 2. Dependencies: `base`, `sale`, `mail`, `product`, and the Python package `requests` (shipped with Odoo).
 3. Update the apps list and install **RelayRuntime**.
 
 ```text
-git clone https://github.com/nagwagabr-rwpst/rwpst-relayruntime-odoo20.git relayruntime
+git clone https://github.com/nagwagabr-rwpst/rwpst-relayruntime-odoo20.git
 ```
 
 ## What it does
@@ -27,7 +27,7 @@ git clone https://github.com/nagwagabr-rwpst/rwpst-relayruntime-odoo20.git relay
 - One active provider configuration per company
 - Live sending through Green API, and a Mock Provider for demos and tests
 
-The Apps Store description is `static/description/index.html`. `demo.gif` is not referenced by the manifest. `static/description/demo.gif.md` is only a note for a future recording.
+The Apps Store description is `relayruntime/static/description/index.html`. `demo.gif` is not referenced by the manifest. `relayruntime/static/description/demo.gif.md` is only a note for a future recording.
 
 ## Security notes
 
